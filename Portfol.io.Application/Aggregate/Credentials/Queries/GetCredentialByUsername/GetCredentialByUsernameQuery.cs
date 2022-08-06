@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Portfol.io.Domain;
 
-namespace Portfol.io.Application.Aggregate.Credentials.Queries
+namespace Portfol.io.Application.Aggregate.Credentials.Queries.GetCredentialByUsername
 {
     public class GetCredentialByUsernameQuery : IRequest<CredentialUsernameVm>
     {

@@ -9,7 +9,7 @@ namespace Portfol.io.Domain
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public string ProfileImagePath { get; set; } = null!;
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
         public DateTime DateOfCreation { get; set; }
 
         [RegularExpression(@"^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$", ErrorMessage = "Неверный формат номера телефона!")]

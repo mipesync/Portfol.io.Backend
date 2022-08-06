@@ -12,6 +12,7 @@ namespace Portfol.io.Persistence
             services.AddDbContext<PortfolioDbContext>(option => option.UseNpgsql(connectionString));
             services.AddScoped<IPortfolioDbContext>(provider => provider.GetService<PortfolioDbContext>()!);
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IConfigSectionGetter, ConfigSectionGetter>();
 
             return services;
         }

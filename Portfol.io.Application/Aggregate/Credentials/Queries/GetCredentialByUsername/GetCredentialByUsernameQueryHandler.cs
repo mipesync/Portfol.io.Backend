@@ -5,7 +5,7 @@ using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Interfaces;
 using Portfol.io.Domain;
 
-namespace Portfol.io.Application.Aggregate.Credentials.Queries
+namespace Portfol.io.Application.Aggregate.Credentials.Queries.GetCredentialByUsername
 {
     public class GetCredentialByUsernameQueryHandler : IRequestHandler<GetCredentialByUsernameQuery, CredentialUsernameVm>
     {

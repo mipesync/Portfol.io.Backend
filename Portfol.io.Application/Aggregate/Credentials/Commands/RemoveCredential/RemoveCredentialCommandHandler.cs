@@ -22,7 +22,7 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.RemoveCredential
 
             if (entity == null || entity.Username != request.Username) throw new NotFoundException(nameof(Credential), request.Username);
 
-            if (!PassCryptionFactory.PassCryption().Verify(request.ConfirmPassword, entity.Password)) throw new PassNotCorrectException();
+            if (!PassCryptionFactory.PassCryption().Verify(request.Password, entity.Password)) throw new WrongException(nameof(request.Password));
 
             _dbContext.Credentials.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

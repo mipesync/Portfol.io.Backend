@@ -4,11 +4,6 @@ using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Common.Services.Cryption;
 using Portfol.io.Application.Interfaces;
 using Portfol.io.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential.ResetPassword
 {
@@ -23,14 +18,22 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential
 
         public async Task<Unit> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
+            var entity = await _dbContext.Credentials.Include(u => u.User).FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
 
             if (entity == null || entity.Username != request.Username) throw new NotFoundException(nameof(Credential), request.Username);
 
-            if (!PassCryptionFactory.PassCryption().Verify(request.ConfirmPassword, entity.Password)) throw new PassNotCorrectException();
+            if (entity.User == null || entity.User.CredentialsId != entity.Id) throw new NotFoundException(nameof(User), entity.Id);
 
+            if (request.ConfirmNewPassword != request.NewPassword)
+                throw new DoesNotMatchException(nameof(request.ConfirmNewPassword), nameof(request.NewPassword));
 
+            if (request.VerifyCode != request.SentVerifyCode) throw new WrongException(nameof(request.VerifyCode));
 
+            entity.Password = PassCryptionFactory.PassCryption().Encrypt(request.NewPassword);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
         }
     }
 }

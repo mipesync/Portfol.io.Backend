@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Interfaces;
 using Portfol.io.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUser
 {
@@ -28,6 +23,7 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUser
 
             entity.Name = request.Name;
             entity.Description = request.Description;
+            //TODO: подтверждение замены почты через код
             entity.Email = request.Email;
             entity.Phone = request.Phone;
             entity.DateOfBirth = request.DateOfBirth;

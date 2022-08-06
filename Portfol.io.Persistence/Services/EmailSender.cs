@@ -1,11 +1,7 @@
 ﻿using MailKit.Net.Smtp;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Portfol.io.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Portfol.io.Persistence.Services
 {
@@ -14,19 +10,21 @@ namespace Portfol.io.Persistence.Services
         public string Text { get; set; } = "";
         public string Subject { get; set; } = "";
         public string ToAddress { get; set; } = "";
-        public string FromAddress { get; set; } = "portfol_io@outlook.com";
+        private string FromAddress { get; set; }
 
-        public EmailSender(string toAddress, string fromAddress)
+        private readonly IConfigSectionGetter _sectionGetter;
+
+        public EmailSender(IConfigSectionGetter sectionGetter)
         {
-            ToAddress = toAddress;
-            FromAddress = fromAddress;
+            _sectionGetter = sectionGetter;
+            FromAddress = _sectionGetter.GetSection("Smtp:Authenticate:Username");
         }
 
         public async void Send()
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("Администрация Porfol.io", "portfol_io@outlook.com"));
+            emailMessage.From.Add(new MailboxAddress("Администрация Porfol.io", FromAddress));
             emailMessage.To.Add(new MailboxAddress("", ToAddress));
             emailMessage.Subject = Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -36,8 +34,12 @@ namespace Portfol.io.Persistence.Services
 
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.office365.com", 587, false);
-                await client.AuthenticateAsync("portfol_io@outlook.com", "portfol.io1282asd");
+                string host = _sectionGetter.GetSection("Smtp:Connect:Host"),
+                    password = _sectionGetter.GetSection("Smtp:Authenticate:Password");
+                int port = Convert.ToInt32(_sectionGetter.GetSection("Smtp:Connect:Port"));
+
+                await client.ConnectAsync(host, port, false);
+                await client.AuthenticateAsync(FromAddress, password);
                 await client.SendAsync(emailMessage);
 
                 await client.DisconnectAsync(true);

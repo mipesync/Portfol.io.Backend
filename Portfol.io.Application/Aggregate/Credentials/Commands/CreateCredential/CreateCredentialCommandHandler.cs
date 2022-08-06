@@ -17,7 +17,7 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.CreateCredential
 
         public async Task<string> Handle(CreateCredentialCommand request, CancellationToken cancellationToken)
         {
-            if (request.Password != request.ConfirmPassword) throw new PassDontMatchException();
+            if (request.Password != request.ConfirmPassword) throw new DoesNotMatchException(nameof(request.Password), nameof(request.ConfirmPassword));
 
             var credential = new Credential
             {

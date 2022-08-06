@@ -10,6 +10,6 @@ namespace Portfol.io.Application.Interfaces
     {
         void Send();
         string ToAddress { get; set; }
-        string FromAddress { get; set; }
+        private string FromAddress { get; set; }
     }
 }

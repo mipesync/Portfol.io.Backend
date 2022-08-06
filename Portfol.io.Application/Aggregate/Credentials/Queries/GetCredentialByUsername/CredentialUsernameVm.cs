@@ -2,7 +2,7 @@
 using Portfol.io.Application.Common.Mappings;
 using Portfol.io.Domain;
 
-namespace Portfol.io.Application.Aggregate.Credentials.Queries
+namespace Portfol.io.Application.Aggregate.Credentials.Queries.GetCredentialByUsername
 {
     public class CredentialUsernameVm : IMapWith<Credential>
     {
