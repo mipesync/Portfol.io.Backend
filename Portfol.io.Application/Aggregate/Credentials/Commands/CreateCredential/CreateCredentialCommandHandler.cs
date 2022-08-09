@@ -17,12 +17,12 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.CreateCredential
 
         public async Task<string> Handle(CreateCredentialCommand request, CancellationToken cancellationToken)
         {
-            if (request.Password != request.ConfirmPassword) throw new DoesNotMatchException(nameof(request.Password), nameof(request.ConfirmPassword));
+            if (request.Model.Password != request.Model.ConfirmPassword) throw new DoesNotMatchException(nameof(request.Model.Password), nameof(request.Model.ConfirmPassword));
 
             var credential = new Credential
             {
-                Username = request.Username,
-                Password = PassCryptionFactory.PassCryption().Encrypt(request.Password)
+                Username = request.Model.Username,
+                Password = PassCryptionFactory.PassCryption().Encrypt(request.Model.Password)
             };
 
             await _dbContext.Credentials.AddAsync(credential);

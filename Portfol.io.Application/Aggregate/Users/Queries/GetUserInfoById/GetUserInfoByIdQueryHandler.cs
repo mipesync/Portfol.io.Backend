@@ -7,7 +7,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Users.Queries.GetUserInfoById
 {
-    public class GetUserInfoByIdQueryHandler : IRequestHandler<GetUserInfoByIdQuery, UserDetailsVm>
+    public class GetUserInfoByIdQueryHandler : IRequestHandler<GetUserInfoByIdQuery, UserDetailsViewModel>
     {
         private readonly IPortfolioDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -18,14 +18,13 @@ namespace Portfol.io.Application.Aggregate.Users.Queries.GetUserInfoById
             _mapper = mapper;
         }
 
-        public async Task<UserDetailsVm> Handle(GetUserInfoByIdQuery request, CancellationToken cancellationToken)
+        public async Task<UserDetailsViewModel> Handle(GetUserInfoByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
             if (entity == null || entity.Id != request.UserId) throw new NotFoundException(nameof(User), request.UserId);
 
-            return _mapper.Map<UserDetailsVm>(entity);
-
+            return _mapper.Map<UserDetailsViewModel>(entity);
         }
     }
 }

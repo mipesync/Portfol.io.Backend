@@ -18,15 +18,15 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.CreateUser
             var entity = new User
             {
                 Id = Guid.NewGuid(),
-                Name = request.Name,
-                Description = request.Description,
+                Name = request.Model.Name,
+                Description = request.Model.Description,
                 ProfileImagePath = "/ProfileImages/default.png",
-                DateOfBirth = request.DateOfBirth,
+                DateOfBirth = request.Model.DateOfBirth,
                 DateOfCreation = DateTime.UtcNow,
-                Phone = request.Phone,
-                Email = request.Email,
-                CredentialsId = request.CredentialsId,
-                RoleId = request.RoleId
+                Phone = request.Model.Phone,
+                Email = request.Model.Email,
+                CredentialsId = request.Model.CredentialsId,
+                RoleId = request.Model.RoleId
             };
 
             await _dbContext.Users.AddAsync(entity);

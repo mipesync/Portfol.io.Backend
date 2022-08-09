@@ -1,11 +1,30 @@
+using Microsoft.IdentityModel.Tokens;
 using Portfol.io.Application;
 using Portfol.io.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//TODO: Доделать настройки авторизации + добавить авторизацию через ВК и т.д.
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            //ValidateIssuer = true,
+            //ValidIssuer
+        };
+    })
+    .AddGoogle(options =>
+    {
+        IConfigurationSection googleConfig = config.GetSection("Authenfication:Google");
+        options.ClientId = googleConfig["ClientId"];
+        options.ClientSecret = googleConfig["ClientSecret"];
+    });
 
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
 builder.Services.AddPersistence(connectionString);

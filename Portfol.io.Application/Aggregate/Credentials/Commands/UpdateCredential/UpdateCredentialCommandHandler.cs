@@ -17,11 +17,14 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential
 
         public async Task<Unit> Handle(UpdateCredentialCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
+            var entity = await _dbContext.Credentials.Include(u => u.User!.VerifyCode).FirstOrDefaultAsync(u => u.Username == request.Model.OldUsername, cancellationToken);
 
-            if (entity == null || entity.Username != request.Username) throw new NotFoundException(nameof(Credential), request.Username);
+            if (entity == null || entity.Username != request.Model.OldUsername) throw new NotFoundException(nameof(Credential), request.Model.OldUsername);
 
-            entity.Username = request.Username;
+            if (entity.User!.VerifyCode != request.Model.VerifyCode || entity.User.VerifyCode is null) throw new WrongException(nameof(request.Model.VerifyCode));
+
+            entity.Username = request.Model.NewUsername;
+            entity.User.VerifyCode = null!;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

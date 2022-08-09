@@ -27,9 +27,10 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential
             if (request.ConfirmNewPassword != request.NewPassword)
                 throw new DoesNotMatchException(nameof(request.ConfirmNewPassword), nameof(request.NewPassword));
 
-            if (request.VerifyCode != request.SentVerifyCode) throw new WrongException(nameof(request.VerifyCode));
+            if (request.VerifyCode != entity.User.VerifyCode || entity.User.VerifyCode is null) throw new WrongException(nameof(request.VerifyCode));
 
             entity.Password = PassCryptionFactory.PassCryption().Encrypt(request.NewPassword);
+            entity.User.VerifyCode = null;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

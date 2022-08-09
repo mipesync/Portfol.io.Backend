@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Portfol.io.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Portfol.io.Persistence.EntityTypeConfigurations
 {
@@ -29,7 +24,7 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
                 .IsRequired();
 
             builder.HasOne(u => u.User)
-                .WithMany(u => u.Albums)
+                .WithMany(u => u.UserAlbums)
                 .HasForeignKey(u => u.UserId);
 
             builder.HasMany(u => u.Tags)
@@ -47,6 +42,23 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
                 {
                     p.HasKey(new string[] { "AlbumId", "TagId" });
                     p.ToTable("AlbumTags");
+                });
+
+            builder.HasMany(u => u.Users)
+                .WithMany(u => u.LikedAlbums)
+                .UsingEntity<AlbumLike>(
+                j => j
+                    .HasOne(u => u.User)
+                    .WithMany(u => u.AlbumLikes)
+                    .HasForeignKey(u => u.UserId),
+                o => o
+                    .HasOne(u => u.Album)
+                    .WithMany(u => u.AlbumLikes)
+                    .HasForeignKey(u => u.AlbumId),
+                p =>
+                {
+                    p.HasKey(new [] { "UserId", "AlbumId" });
+                    p.ToTable("AlbumLikes");
                 });
         }
     }

@@ -1,16 +1,16 @@
 ﻿using MailKit.Net.Smtp;
-using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Portfol.io.Application.Interfaces;
 
 namespace Portfol.io.Persistence.Services
 {
+    //NOTE: Реализовать JSON через UserSecrets
     public class EmailSender : IEmailSender
     {
         public string Text { get; set; } = "";
         public string Subject { get; set; } = "";
         public string ToAddress { get; set; } = "";
-        private string FromAddress { get; set; }
+        public string FromAddress { get; }
 
         private readonly IConfigSectionGetter _sectionGetter;
 

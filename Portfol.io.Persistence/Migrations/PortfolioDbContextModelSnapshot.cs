@@ -37,12 +37,6 @@ namespace Portfol.io.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<bool>("IsLiked")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(35)
@@ -59,6 +53,21 @@ namespace Portfol.io.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Albums", (string)null);
+                });
+
+            modelBuilder.Entity("Portfol.io.Domain.AlbumLike", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "AlbumId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("AlbumLikes", (string)null);
                 });
 
             modelBuilder.Entity("Portfol.io.Domain.AlbumTag", b =>
@@ -178,8 +187,8 @@ namespace Portfol.io.Persistence.Migrations
                     b.Property<int?>("CredentialsId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateOnly>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("DateOfCreation")
                         .HasColumnType("timestamp with time zone");
@@ -209,6 +218,10 @@ namespace Portfol.io.Persistence.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("VerifyCode")
+                        .HasMaxLength(6)
+                        .HasColumnType("character varying(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CredentialsId")
@@ -225,10 +238,29 @@ namespace Portfol.io.Persistence.Migrations
             modelBuilder.Entity("Portfol.io.Domain.Album", b =>
                 {
                     b.HasOne("Portfol.io.Domain.User", "User")
-                        .WithMany("Albums")
+                        .WithMany("UserAlbums")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Portfol.io.Domain.AlbumLike", b =>
+                {
+                    b.HasOne("Portfol.io.Domain.Album", "Album")
+                        .WithMany("AlbumLikes")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Portfol.io.Domain.User", "User")
+                        .WithMany("AlbumLikes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
 
                     b.Navigation("User");
                 });
@@ -282,6 +314,8 @@ namespace Portfol.io.Persistence.Migrations
 
             modelBuilder.Entity("Portfol.io.Domain.Album", b =>
                 {
+                    b.Navigation("AlbumLikes");
+
                     b.Navigation("AlbumTags");
 
                     b.Navigation("Photos");
@@ -304,7 +338,9 @@ namespace Portfol.io.Persistence.Migrations
 
             modelBuilder.Entity("Portfol.io.Domain.User", b =>
                 {
-                    b.Navigation("Albums");
+                    b.Navigation("AlbumLikes");
+
+                    b.Navigation("UserAlbums");
                 });
 #pragma warning restore 612, 618
         }

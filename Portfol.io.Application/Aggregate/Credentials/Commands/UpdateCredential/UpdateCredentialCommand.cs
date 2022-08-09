@@ -4,6 +4,6 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential
 {
     public class UpdateCredentialCommand : IRequest<Unit>
     {
-        public string Username { get; set; } = null!;
+        public UpdateCredentialViewModel Model { get; set; } = null!;
     }
 }

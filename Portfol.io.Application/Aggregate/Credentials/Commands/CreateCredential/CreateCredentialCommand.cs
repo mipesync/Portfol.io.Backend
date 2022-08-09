@@ -1,12 +1,9 @@
 ﻿using MediatR;
-using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Credentials.Commands.CreateCredential
 {
     public class CreateCredentialCommand : IRequest<string>
     {
-        public string Username { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string ConfirmPassword { get; set; } = null!;
+        public CreateCredentialViewModel Model { get; set; } = null!;
     }
 }

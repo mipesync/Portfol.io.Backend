@@ -36,6 +36,9 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
 
             builder.Property(p => p.Email)
                 .IsRequired();
+
+            builder.Property(p => p.VerifyCode)
+                .HasMaxLength(6);
         }
     }
 }
