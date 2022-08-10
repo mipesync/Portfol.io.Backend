@@ -7,7 +7,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Credentials.Queries.GetCredentialByUsername
 {
-    public class GetCredentialByUsernameQueryHandler : IRequestHandler<GetCredentialByUsernameQuery, CredentialUsernameVm>
+    public class GetCredentialByUsernameQueryHandler : IRequestHandler<GetCredentialByUsernameQuery, CredentialUsernameViewModel>
     {
         private readonly IPortfolioDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -18,13 +18,13 @@ namespace Portfol.io.Application.Aggregate.Credentials.Queries.GetCredentialByUs
             _dbContext = dbContext;
         }
 
-        public async Task<CredentialUsernameVm> Handle(GetCredentialByUsernameQuery request, CancellationToken cancellationToken)
+        public async Task<CredentialUsernameViewModel> Handle(GetCredentialByUsernameQuery request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
 
             if (entity == null || entity.Username != request.Username) throw new NotFoundException(nameof(Credential), request.Username);
 
-            return _mapper.Map<CredentialUsernameVm>(entity);
+            return _mapper.Map<CredentialUsernameViewModel>(entity);
         }
     }
 }

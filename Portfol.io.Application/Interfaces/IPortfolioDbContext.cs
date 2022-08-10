@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Portfol.io.Domain;
-using System.Threading;
 
 namespace Portfol.io.Application.Interfaces
 {
@@ -12,6 +11,7 @@ namespace Portfol.io.Application.Interfaces
         DbSet<Tag> Tags { get; set; }
         DbSet<User> Users { get; set; } 
         DbSet<AlbumTag> AlbumTags { get; set; }
+        DbSet<AlbumLike> AlbumLikes { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

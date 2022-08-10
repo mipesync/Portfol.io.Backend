@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Interfaces;
+using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Users.Queries.GetUserById
 {
@@ -22,7 +24,19 @@ namespace Portfol.io.Application.Aggregate.Users.Queries.GetUserById
             //NOTE: Посмотреть на лайки, мб добавить
             var entity = await _dbContext.Users.Include(u => u.UserAlbums).FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            return _mapper.Map<UserViewModel>(entity);
+            if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(User), request.Id);
+
+            var albumLookupDto = new List<AlbumLookupDto>();
+
+            foreach (var album in entity.UserAlbums!)
+            {
+                albumLookupDto.Add(_mapper.Map<AlbumLookupDto>(album));
+            }
+
+            var userVm = _mapper.Map<UserViewModel>(entity);
+            userVm.Albums = albumLookupDto;
+
+            return userVm;
         }
     }
 }

@@ -18,18 +18,18 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential
 
         public async Task<Unit> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Credentials.Include(u => u.User).FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
+            var entity = await _dbContext.Credentials.Include(u => u.User).FirstOrDefaultAsync(u => u.Username == request.Model.Username, cancellationToken);
 
-            if (entity == null || entity.Username != request.Username) throw new NotFoundException(nameof(Credential), request.Username);
+            if (entity == null || entity.Username != request.Model.Username) throw new NotFoundException(nameof(Credential), request.Model.Username);
 
-            if (entity.User == null || entity.User.CredentialsId != entity.Id) throw new NotFoundException(nameof(User), entity.Id);
+            if (entity!.User == null || entity.User.CredentialsId != entity.Id) throw new NotFoundException(nameof(User), entity.Id);
 
-            if (request.ConfirmNewPassword != request.NewPassword)
-                throw new DoesNotMatchException(nameof(request.ConfirmNewPassword), nameof(request.NewPassword));
+            if (request.Model.ConfirmNewPassword != request.Model.NewPassword)
+                throw new DoesNotMatchException(nameof(request.Model.ConfirmNewPassword), nameof(request.Model.NewPassword));
 
-            if (request.VerifyCode != entity.User.VerifyCode || entity.User.VerifyCode is null) throw new WrongException(nameof(request.VerifyCode));
+            if (request.Model.VerifyCode != entity.User.VerifyCode || entity.User.VerifyCode is null) throw new WrongException(nameof(request.Model.VerifyCode));
 
-            entity.Password = PassCryptionFactory.PassCryption().Encrypt(request.NewPassword);
+            entity.Password = PassCryptionFactory.PassCryption().Encrypt(request.Model.NewPassword);
             entity.User.VerifyCode = null;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
