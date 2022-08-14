@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Common.Services.Cryption;
 using Portfol.io.Application.Interfaces;
@@ -17,6 +18,10 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.CreateCredential
 
         public async Task<string> Handle(CreateCredentialCommand request, CancellationToken cancellationToken)
         {
+            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Model.Username);
+
+            if (entity is not null) throw new Exception($"A user with this username \"{request.Model.Username}\" already exists.");
+
             if (request.Model.Password != request.Model.ConfirmPassword) throw new DoesNotMatchException(nameof(request.Model.Password), nameof(request.Model.ConfirmPassword));
 
             var credential = new Credential

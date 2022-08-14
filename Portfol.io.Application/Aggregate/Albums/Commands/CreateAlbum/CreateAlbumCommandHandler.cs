@@ -21,11 +21,11 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
                 Description = request.Model.Description,
                 CreationDate = DateTime.UtcNow,
                 UserId = request.Model.UserId,
-                //TODO: Добавить команды для Tag
                 Tags = request.Model.Tags
             };
 
             await _dbContext.Albums.AddAsync(entity, cancellationToken);
+            await _dbContext.Tags.AddRangeAsync(entity.Tags!, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

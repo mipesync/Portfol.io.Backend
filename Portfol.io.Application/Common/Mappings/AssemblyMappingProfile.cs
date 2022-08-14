@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Portfol.io.Application.Common.Mappings
 {
@@ -22,7 +17,7 @@ namespace Portfol.io.Application.Common.Mappings
             {
                 var instance = Activator.CreateInstance(type);
                 var methodInfo = type.GetMethod("Mapping");
-                methodInfo?.Invoke(instance, new object[] { type });
+                methodInfo?.Invoke(instance, new object[] { this });
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.RemoveAlbum
                 .NotEmpty().WithMessage("Model is required.");
 
             RuleFor(removeAlbumCommand => removeAlbumCommand.Model.Id)
-                .NotEmpty().WithMessage("Id is required");
+                .NotEqual(0).WithMessage("Id is required");
 
             RuleFor(removeAlbumCommand => removeAlbumCommand.Model.UserId)
                 .NotEqual(Guid.Empty).WithMessage("UserId is required");

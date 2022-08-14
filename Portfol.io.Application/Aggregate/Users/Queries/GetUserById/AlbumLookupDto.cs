@@ -18,7 +18,8 @@ namespace Portfol.io.Application.Aggregate.Users.Queries.GetUserById
                 .ForMember(albumLD => albumLD.Id, opt => opt.MapFrom(album => album.Id))
                 .ForMember(albumLD => albumLD.Name, opt => opt.MapFrom(album => album.Name))
                 .ForMember(albumLD => albumLD.Description, opt => opt.MapFrom(album => album.Description))
-                .ForMember(albumLD => albumLD.CreationDate, opt => opt.MapFrom(album => album.CreationDate));
+                .ForMember(albumLD => albumLD.CreationDate, opt => opt.MapFrom(album => album.CreationDate))
+                .ForMember(albumLD => albumLD.Likes, opt => opt.MapFrom(album => album.AlbumLikes!.Count));
         }
     }
 }

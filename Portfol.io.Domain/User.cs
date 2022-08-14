@@ -28,7 +28,6 @@ namespace Portfol.io.Domain
         public virtual Role? Role{ get; set; }
         public virtual ICollection<Album>? UserAlbums { get; set; }
         public virtual ICollection<Album>? LikedAlbums { get; set; }
-        //TODO: Посмотреть ещё реализацию этого момента, мб чё придумать лучше
         public virtual ICollection<AlbumLike>? AlbumLikes { get; set; }
     }
 }

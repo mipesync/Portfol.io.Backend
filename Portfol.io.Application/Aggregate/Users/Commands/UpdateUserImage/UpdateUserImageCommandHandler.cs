@@ -8,29 +8,27 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUserImage
     public class UpdateUserImageCommandHandler : IRequestHandler<UpdateUserImageCommand, Unit>
     {
         private readonly IPortfolioDbContext _dbContext;
+        private readonly IImageUploader _uploader;
 
-        public UpdateUserImageCommandHandler(IPortfolioDbContext dbContext)
+        public UpdateUserImageCommandHandler(IPortfolioDbContext dbContext, IImageUploader uploader)
         {
             _dbContext = dbContext;
+            _uploader = uploader;
         }
 
         public async Task<Unit> Handle(UpdateUserImageCommand request, CancellationToken cancellationToken)
         {
-            var file = request.Model.ImageFile;
-            var fileExtension = Path.GetExtension(file.FileName);
-            var fileNameHash = Guid.NewGuid().ToString();
-
-            string path = "/ProfileImages/" + fileNameHash + fileExtension;
-            using (var fileStream = new FileStream(request.Model.WebRootPath + path, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-
             var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.Model.UserId, cancellationToken);
 
             if (entity == null || entity.Id != request.Model.UserId) throw new NotFoundException(nameof(Users), request.Model.UserId);
 
-            entity.ProfileImagePath = path;
+            if (entity.ProfileImagePath != "/ProfileImages/default.png") File.Delete($"{request.Model.WebRootPath}{entity.ProfileImagePath}");
+
+            _uploader.File = request.Model.ImageFile;
+            _uploader.AbsolutePath = $"{request.Model.WebRootPath}/ProfileImages/{entity.Id}/";
+            var imagePath = await _uploader.Upload();
+
+            entity.ProfileImagePath = imagePath;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

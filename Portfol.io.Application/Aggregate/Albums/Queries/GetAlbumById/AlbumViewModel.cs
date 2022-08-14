@@ -12,6 +12,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
         public DateTime CreationDate { get; set; }
         public IEnumerable<Photo> Photos { get; set; } = null!;
         public IEnumerable<Tag> Tags { get; set; } = null!;
+        public int Likes { get; set; }
 
         public void Mapping(Profile profile)
         {
@@ -21,7 +22,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
                 .ForMember(albumLookup => albumLookup.Description, opt => opt.MapFrom(album => album.Description))
                 .ForMember(albumLookup => albumLookup.CreationDate, opt => opt.MapFrom(album => album.CreationDate))
                 .ForMember(albumLookup => albumLookup.Photos, opt => opt.MapFrom(album => album.Photos))
-                .ForMember(albumLookup => albumLookup.Tags, opt => opt.MapFrom(album => album.Tags));
+                .ForMember(albumLookup => albumLookup.Tags, opt => opt.MapFrom(album => album.Tags))
+                .ForMember(albumLookup => albumLookup.Likes, opt => opt.MapFrom(album => album.AlbumLikes!.Count));
         }
     }
 }

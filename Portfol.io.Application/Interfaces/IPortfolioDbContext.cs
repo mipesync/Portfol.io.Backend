@@ -10,6 +10,7 @@ namespace Portfol.io.Application.Interfaces
         DbSet<Photo> Photos { get; set; }
         DbSet<Tag> Tags { get; set; }
         DbSet<User> Users { get; set; } 
+        DbSet<Role> Roles { get; set; } 
         DbSet<AlbumTag> AlbumTags { get; set; }
         DbSet<AlbumLike> AlbumLikes { get; set; }
 

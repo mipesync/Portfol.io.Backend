@@ -20,9 +20,7 @@ namespace Portfol.io.Application.Aggregate.Users.Queries.GetUserById
 
         public async Task<UserViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
-            //FIXME: Возможно неправильно. Если да, то надо разобраться с AlbumLookupDto списком в UserViewModel
-            //NOTE: Посмотреть на лайки, мб добавить
-            var entity = await _dbContext.Users.Include(u => u.UserAlbums).FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+            var entity = await _dbContext.Users.Include(u => u.UserAlbums).Include(u => u.AlbumLikes).FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
             if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(User), request.Id);
 

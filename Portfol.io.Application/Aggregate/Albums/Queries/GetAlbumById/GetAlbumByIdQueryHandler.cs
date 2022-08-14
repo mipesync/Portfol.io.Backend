@@ -20,7 +20,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
 
         public async Task<AlbumViewModel> Handle(GetAlbumByIdQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Albums.Include(u => u.Photos).Include(u => u.Tags).FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+            var entity = await _dbContext.Albums.Include(u => u.Photos).Include(u => u.Tags).Include(u => u.AlbumLikes)
+                .FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
             if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(Album), request.Id);
 
