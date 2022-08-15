@@ -54,7 +54,7 @@ namespace Portfol.io.Tests.Common
                     Description = "Я - Гуестов Гуест Гуестович",
                     ProfileImagePath = "/ProfileImages/default.png",
                     DateOfBirth = DateOnly.Parse("02.04.2023"),
-                    DateOfCreation = DateTime.UtcNow,
+                    DateOfCreation = DateTime.Now,
                     Email = "guestos@aaa.moc",
                     CredentialsId = 1,
                     RoleId = 1,
@@ -67,7 +67,7 @@ namespace Portfol.io.Tests.Common
                     Description = "Я - Админосов Админос Админосович",
                     ProfileImagePath = "/ProfileImages/default.png",
                     DateOfBirth = DateOnly.Parse("02.04.2010"),
-                    DateOfCreation = DateTime.UtcNow,
+                    DateOfCreation = DateTime.Now,
                     Email = "adminous@aaa.moc",
                     CredentialsId = 2,
                     RoleId = 2,
@@ -79,28 +79,28 @@ namespace Portfol.io.Tests.Common
                 {
                     Id = 1,
                     Name = "Альбом Гуеста 1",
-                    CreationDate = DateTime.UtcNow,
+                    CreationDate = DateTime.Now,
                     UserId = UserAId
                 },
                 new Album
                 {
                     Id = 2,
                     Name = "Альбом Гуеста 2",
-                    CreationDate = DateTime.UtcNow,
+                    CreationDate = DateTime.Now,
                     UserId = UserAId
                 },
                 new Album
                 {
                     Id = 3,
                     Name = "Альбом Админоса 1",
-                    CreationDate = DateTime.UtcNow,
+                    CreationDate = DateTime.Now,
                     UserId = UserBId
                 },
                 new Album
                 {
                     Id = 4,
                     Name = "Альбом Админоса 2",
-                    CreationDate = DateTime.UtcNow,
+                    CreationDate = DateTime.Now,
                     UserId = UserBId
                 });
 

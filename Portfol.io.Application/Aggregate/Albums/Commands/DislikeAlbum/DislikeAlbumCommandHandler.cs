@@ -17,10 +17,10 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.DislikeAlbum
 
         public async Task<Unit> Handle(DislikeAlbumCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.AlbumLikes.Where(u => u.AlbumId == request.Id).FirstOrDefaultAsync(u => u.UserId == request.UserId);
+            var entity = await _dbContext.AlbumLikes.FirstOrDefaultAsync(u => u.UserId == request.UserId && u.AlbumId == request.AlbumId);
 
-            if (entity is null || entity.AlbumId != request.Id || entity.UserId != request.UserId)
-                throw new NotFoundException(nameof(AlbumLike), new { request.Id, request.UserId });
+            if (entity is null || entity.AlbumId != request.AlbumId || entity.UserId != request.UserId)
+                throw new NotFoundException(nameof(AlbumLike), new { request.AlbumId, request.UserId });
 
             _dbContext.AlbumLikes.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

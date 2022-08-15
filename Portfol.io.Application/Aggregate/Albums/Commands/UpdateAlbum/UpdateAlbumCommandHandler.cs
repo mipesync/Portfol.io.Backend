@@ -17,12 +17,12 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.UpdateAlbum
 
         public async Task<Unit> Handle(UpdateAlbumCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.Model.Id, cancellationToken);
+            var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            if (entity is null || entity.Id != request.Model.Id) throw new NotFoundException(nameof(Album), request.Model.Id);
+            if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(Album), request.Id);
 
-            entity.Name = request.Model.Name;
-            entity.Description = request.Model.Description;
+            entity.Name = request.Name;
+            entity.Description = request.Description;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 

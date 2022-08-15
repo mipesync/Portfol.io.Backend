@@ -4,6 +4,9 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.UpdateCredential
 {
     public class ResetPasswordCommand : IRequest<Unit>
     {
-        public ResetPasswordViewModel Model { get; set; } = null!;
+        public string Username { get; set; } = null!;
+        public string NewPassword { get; set; } = null!;
+        public string ConfirmNewPassword { get; set; } = null!;
+        public string VerifyCode { get; set; } = null!;
     }
 }

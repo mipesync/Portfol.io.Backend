@@ -18,16 +18,16 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.CreateCredential
 
         public async Task<string> Handle(CreateCredentialCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Model.Username);
+            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Username);
 
-            if (entity is not null) throw new Exception($"A user with this username \"{request.Model.Username}\" already exists.");
+            if (entity is not null) throw new AlreadyExistsException(nameof(Credential), request.Username);
 
-            if (request.Model.Password != request.Model.ConfirmPassword) throw new DoesNotMatchException(nameof(request.Model.Password), nameof(request.Model.ConfirmPassword));
+            if (request.Password != request.ConfirmPassword) throw new DoesNotMatchException(nameof(request.Password), nameof(request.ConfirmPassword));
 
             var credential = new Credential
             {
-                Username = request.Model.Username,
-                Password = PassCryptionFactory.PassCryption().Encrypt(request.Model.Password)
+                Username = request.Username,
+                Password = PassCryptionFactory.PassCryption().Encrypt(request.Password)
             };
 
             await _dbContext.Credentials.AddAsync(credential);

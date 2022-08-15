@@ -19,15 +19,15 @@ namespace Portfol.io.Application.Common.Services.SendVerifyCode
 
         public async Task<Unit> Handle(SendVerifyCodeCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Model.Email, cancellationToken);
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
 
-            if (entity == null || entity.Email != request.Model.Email) throw new NotFoundException(nameof(User), request.Model.Email);
+            if (entity == null || entity.Email != request.Email) throw new NotFoundException(nameof(User), request.Email);
 
             var verifyCode = new Random().Next(100000, 999999).ToString();
 
-            _emailSender.Text = $"{request.Model.MessageText}: {verifyCode}";
-            _emailSender.Subject = request.Model.MessageSubject;
-            _emailSender.ToAddress = request.Model.Email;
+            _emailSender.Text = $"{request.MessageText}: {verifyCode}";
+            _emailSender.Subject = request.MessageSubject;
+            _emailSender.ToAddress = request.Email;
             _emailSender.Send();
 
             entity.VerifyCode = verifyCode;

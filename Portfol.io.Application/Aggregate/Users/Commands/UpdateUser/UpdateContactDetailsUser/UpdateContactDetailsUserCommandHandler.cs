@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Interfaces;
@@ -10,24 +9,22 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUser.UpdateConta
     public class UpdateContactDetailsUserCommandHandler : IRequestHandler<UpdateContactDetailsUserCommand, Unit>
     {
         private readonly IPortfolioDbContext _dbContext;
-        private readonly IMapper _mapper;
 
-        public UpdateContactDetailsUserCommandHandler(IPortfolioDbContext dbContext, IMapper mapper)
+        public UpdateContactDetailsUserCommandHandler(IPortfolioDbContext dbContext)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(UpdateContactDetailsUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.Model.Id, cancellationToken);
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            if (entity == null || entity.Id != request.Model.Id) throw new NotFoundException(nameof(User), request.Model.Id);
+            if (entity == null || entity.Id != request.Id) throw new NotFoundException(nameof(User), request.Id);
 
-            if (entity.VerifyCode != request.Model.VerifyCode || entity.VerifyCode is null) throw new WrongException(nameof(request.Model.VerifyCode));
+            if (entity.VerifyCode != request.VerifyCode || entity.VerifyCode is null) throw new WrongException(nameof(request.VerifyCode));
 
-            entity.Email = request.Model.Email;
-            entity.Phone = request.Model.Phone;
+            entity.Email = request.Email;
+            entity.Phone = request.Phone;
             entity.VerifyCode = null;
 
             await _dbContext.SaveChangesAsync(cancellationToken);

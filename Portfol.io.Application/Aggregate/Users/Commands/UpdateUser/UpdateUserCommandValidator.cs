@@ -6,20 +6,17 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUser
     {
         public UpdateUserCommandValidator()
         {
-            RuleFor(updateUserCommand => updateUserCommand.Model)
-                .NotEmpty().WithMessage("Model is required.");
-
-            RuleFor(updateUserCommand => updateUserCommand.Model.Id)
+            RuleFor(updateUserCommand => updateUserCommand.Id)
                 .NotEqual(Guid.Empty).WithMessage("Id is required");
 
-            RuleFor(updateUserCommand => updateUserCommand.Model.Name)
+            RuleFor(updateUserCommand => updateUserCommand.Name)
                 .NotEmpty().WithMessage("Name is required.");
 
-            RuleFor(updateUserCommand => updateUserCommand.Model.Description)
+            RuleFor(updateUserCommand => updateUserCommand.Description)
                 .NotEmpty().WithMessage("Description is required.")
                 .MaximumLength(500).WithMessage("The description lenght must be less than 500.");
 
-            RuleFor(updateUserCommand => updateUserCommand.Model.DateOfBirth)
+            RuleFor(updateUserCommand => updateUserCommand.DateOfBirth)
                 .NotEqual(default(DateOnly)).WithMessage("DateOfBirth is required");
         }
     }

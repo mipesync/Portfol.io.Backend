@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Interfaces;
 using Portfol.io.Domain;
 
@@ -15,24 +17,28 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.CreateUser
 
         public async Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = new User
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
+
+            if (entity is not null) throw new AlreadyExistsException(nameof(User), request.Email);
+
+            var user = new User
             {
                 Id = Guid.NewGuid(),
-                Name = request.Model.Name,
-                Description = request.Model.Description,
+                Name = request.Name,
+                Description = request.Description,
                 ProfileImagePath = "/ProfileImages/default.png",
-                DateOfBirth = request.Model.DateOfBirth,
-                DateOfCreation = DateTime.UtcNow,
-                Phone = request.Model.Phone,
-                Email = request.Model.Email,
-                CredentialsId = request.Model.CredentialsId,
-                RoleId = request.Model.RoleId
+                DateOfBirth = request.DateOfBirth,
+                DateOfCreation = DateTime.Now,
+                Phone = request.Phone,
+                Email = request.Email,
+                CredentialsId = request.CredentialsId,
+                RoleId = request.RoleId
             };
 
-            await _dbContext.Users.AddAsync(entity);
+            await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return entity.Id;
+            return user.Id;
         }
     }
 }

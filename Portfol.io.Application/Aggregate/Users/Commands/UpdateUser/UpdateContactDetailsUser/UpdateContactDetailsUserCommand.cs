@@ -4,6 +4,9 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUser.UpdateConta
 {
     public class UpdateContactDetailsUserCommand : IRequest<Unit>
     {
-        public UpdateContactDetailsUserViewModel Model { get; set; } = null!;
+        public Guid Id { get; set; }
+        public string Phone { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string VerifyCode { get; set; } = null!;
     }
 }

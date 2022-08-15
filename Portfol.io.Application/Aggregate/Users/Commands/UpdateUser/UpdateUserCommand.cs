@@ -4,6 +4,9 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUser
 {
     public class UpdateUserCommand : IRequest<Unit>
     {
-        public UpdateUserViewModel Model { get; set; } = null!;
+        public Guid Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public DateOnly DateOfBirth { get; set; }
     }
 }

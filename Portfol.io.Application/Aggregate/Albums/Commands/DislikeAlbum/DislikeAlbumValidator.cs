@@ -6,7 +6,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.DislikeAlbum
     {
         public DislikeAlbumValidator()
         {
-            RuleFor(dislikeAlbumCommand => dislikeAlbumCommand.Id)
+            RuleFor(dislikeAlbumCommand => dislikeAlbumCommand.AlbumId)
                 .NotEmpty().WithMessage("Id is required");
 
             RuleFor(dislikeAlbumCommand => dislikeAlbumCommand.UserId)

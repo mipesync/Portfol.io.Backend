@@ -18,11 +18,11 @@ namespace Portfol.io.Application.Aggregate.Credentials.Commands.RemoveCredential
 
         public async Task<Unit> Handle(RemoveCredentialCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Model.Username, cancellationToken);
+            var entity = await _dbContext.Credentials.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
 
-            if (entity == null || entity.Username != request.Model.Username) throw new NotFoundException(nameof(Credential), request.Model.Username);
+            if (entity == null || entity.Username != request.Username) throw new NotFoundException(nameof(Credential), request.Username);
 
-            if (!PassCryptionFactory.PassCryption().Verify(request.Model.Password, entity.Password)) throw new WrongException(nameof(request.Model.Password));
+            if (!PassCryptionFactory.PassCryption().Verify(request.Password, entity.Password)) throw new WrongException(nameof(request.Password));
 
             _dbContext.Credentials.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

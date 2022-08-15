@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Portfol.io.Persistence\Portfol.io.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

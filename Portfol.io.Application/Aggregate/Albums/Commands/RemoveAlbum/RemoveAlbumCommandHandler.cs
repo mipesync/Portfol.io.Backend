@@ -17,9 +17,9 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.RemoveAlbum
 
         public async Task<Unit> Handle(RemoveAlbumCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.Model.Id, cancellationToken);
+            var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            if (entity is null || entity.Id != request.Model.Id) throw new NotFoundException(nameof(Album), request.Model.Id);
+            if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(Album), request.Id);
 
             _dbContext.Albums.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

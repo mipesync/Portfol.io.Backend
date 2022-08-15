@@ -18,14 +18,14 @@ namespace Portfol.io.Application.Aggregate.Users.Commands.UpdateUserImage
 
         public async Task<Unit> Handle(UpdateUserImageCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.Model.UserId, cancellationToken);
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
 
-            if (entity == null || entity.Id != request.Model.UserId) throw new NotFoundException(nameof(Users), request.Model.UserId);
+            if (entity == null || entity.Id != request.UserId) throw new NotFoundException(nameof(Users), request.UserId);
 
-            if (entity.ProfileImagePath != "/ProfileImages/default.png") File.Delete($"{request.Model.WebRootPath}{entity.ProfileImagePath}");
+            if (entity.ProfileImagePath != "/ProfileImages/default.png") File.Delete($"{request.WebRootPath}{entity.ProfileImagePath}");
 
-            _uploader.File = request.Model.ImageFile;
-            _uploader.AbsolutePath = $"{request.Model.WebRootPath}/ProfileImages/{entity.Id}/";
+            _uploader.File = request.ImageFile;
+            _uploader.AbsolutePath = $"{request.WebRootPath}/ProfileImages/{entity.Id}/";
             var imagePath = await _uploader.Upload();
 
             entity.ProfileImagePath = imagePath;

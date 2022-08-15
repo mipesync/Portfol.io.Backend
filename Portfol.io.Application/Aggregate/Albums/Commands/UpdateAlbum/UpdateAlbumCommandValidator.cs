@@ -6,17 +6,14 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.UpdateAlbum
     {
         public UpdateAlbumCommandValidator()
         {
-            RuleFor(updateAlbumCommand => updateAlbumCommand.Model)
-                .NotEmpty().WithMessage("Model is required.");
-
-            RuleFor(updateAlbumCommand => updateAlbumCommand.Model.Id)
+            RuleFor(updateAlbumCommand => updateAlbumCommand.Id)
                 .NotEmpty().WithMessage("Id is required");
 
-            RuleFor(updateAlbumCommand => updateAlbumCommand.Model.Name)
+            RuleFor(updateAlbumCommand => updateAlbumCommand.Name)
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(35).WithMessage("The name lenght must not be greater than 35.");
 
-            RuleFor(updateAlbumCommand => updateAlbumCommand.Model.Description)
+            RuleFor(updateAlbumCommand => updateAlbumCommand.Description)
                 .MaximumLength(500).WithMessage("The description lenght must not be greater than 500.");
         }
     }
