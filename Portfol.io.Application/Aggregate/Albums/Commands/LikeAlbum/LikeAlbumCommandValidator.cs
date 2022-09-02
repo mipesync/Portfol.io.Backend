@@ -7,7 +7,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum
         public LikeAlbumCommandValidator()
         {
             RuleFor(likeAlbumCommand => likeAlbumCommand.AlbumId)
-                .NotEmpty().WithMessage("Id is required");
+                .NotEqual(Guid.Empty).WithMessage("{ is required");
 
             RuleFor(likeAlbumCommand => likeAlbumCommand.UserId)
                 .NotEqual(Guid.Empty).WithMessage("UserId is required");

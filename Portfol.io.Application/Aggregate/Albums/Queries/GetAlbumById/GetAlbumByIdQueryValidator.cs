@@ -7,7 +7,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
         public GetAlbumByIdQueryValidator()
         {
             RuleFor(getAlbumByIdQuery => getAlbumByIdQuery.Id)
-                .NotEmpty().WithMessage("Id is required");
+                .NotEqual(Guid.Empty).WithMessage("Id is required");
         }
     }
 }

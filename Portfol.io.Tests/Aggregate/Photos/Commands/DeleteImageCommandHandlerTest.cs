@@ -19,13 +19,13 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
             await handler.Handle(
                 new DeleteImageCommand
                 {
-                    AlbumId = 1,
-                    PhotoId = 1,
+                    AlbumId = PortfolioContextFactory.Album1,
+                    PhotoId = PortfolioContextFactory.Photo1,
                     WebRootPath = webRootPath
                 }, CancellationToken.None);
 
             //Assert
-            Assert.Null(await Context.Photos.FirstOrDefaultAsync(u => u.Id == 1, CancellationToken.None));
+            Assert.Null(await Context.Photos.FirstOrDefaultAsync(u => u.Id == PortfolioContextFactory.Photo1, CancellationToken.None));
         }
 
         [Fact]
@@ -41,8 +41,8 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
                 await handler.Handle(
                     new DeleteImageCommand
                     {
-                        AlbumId = 1,
-                        PhotoId = 0,
+                        AlbumId = PortfolioContextFactory.Album1,
+                        PhotoId = Guid.Empty,
                         WebRootPath = "some_path"
                     }, CancellationToken.None);
             });

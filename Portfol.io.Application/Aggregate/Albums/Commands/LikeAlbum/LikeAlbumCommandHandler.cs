@@ -21,10 +21,6 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum
 
             if (album is null || album.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
 
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
-
-            if (user is null || user.Id != request.UserId) throw new NotFoundException(nameof(User), request.UserId);
-
             var entity = new AlbumLike
             {
                 AlbumId = request.AlbumId,

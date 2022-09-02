@@ -18,31 +18,13 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
             await handler.Handle(
                 new LikeAlbumCommand
                 {
-                    AlbumId = 1,
+                    AlbumId = PortfolioContextFactory.Album3,
                     UserId = PortfolioContextFactory.UserBId
                 }, CancellationToken.None);
 
             //Assert
-            Assert.NotNull(await Context.AlbumLikes.FirstOrDefaultAsync(u => u.UserId == PortfolioContextFactory.UserBId && u.AlbumId == 1, CancellationToken.None));
-        }
-
-        [Fact]
-        public async Task LikeAlbumCommandHandlerTest_FailOnWrongUserId()
-        {
-            //Arrange
-            var handler = new LikeAlbumCommandHandler(Context);
-
-            //Act
-            //Assert
-            await Assert.ThrowsAsync<NotFoundException>(async () =>
-            {
-                await handler.Handle(
-                    new LikeAlbumCommand
-                    {
-                        UserId = Guid.NewGuid(),
-                        AlbumId = 1
-                    }, CancellationToken.None);
-            });
+            Assert.NotNull(await Context.AlbumLikes.FirstOrDefaultAsync(u => u.UserId == PortfolioContextFactory.UserBId && 
+                            u.AlbumId == PortfolioContextFactory.Album1, CancellationToken.None));
         }
 
         [Fact]
@@ -59,7 +41,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                     new LikeAlbumCommand
                     {
                         UserId = PortfolioContextFactory.UserAId,
-                        AlbumId = 0
+                        AlbumId = Guid.Empty
                     }, CancellationToken.None);
             });
         }

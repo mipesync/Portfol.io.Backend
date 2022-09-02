@@ -7,7 +7,7 @@ namespace Portfol.io.Application.Aggregate.Photos.Queries.GetImageById
         public GetImageByIdQueryValidator()
         {
             RuleFor(x => x.Id)
-                .NotEmpty().WithMessage("Id is required.");
+                .NotEqual(Guid.Empty).WithMessage("Id is required");
         }
     }
 }

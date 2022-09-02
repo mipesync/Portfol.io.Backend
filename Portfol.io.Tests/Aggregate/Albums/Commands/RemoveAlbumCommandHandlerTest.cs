@@ -18,11 +18,11 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
             await handler.Handle(
                 new RemoveAlbumCommand
                 {
-                    Id = 1
+                    Id = PortfolioContextFactory.Album1
                 }, CancellationToken.None);
 
             //Assert
-            Assert.Null(await Context.Albums.FirstOrDefaultAsync(u => u.Id == 1, CancellationToken.None));
+            Assert.Null(await Context.Albums.FirstOrDefaultAsync(u => u.Id == PortfolioContextFactory.Album1, CancellationToken.None));
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                 await handler.Handle(
                     new RemoveAlbumCommand
                     {
-                        Id = 0
+                        Id = Guid.Empty
                     }, CancellationToken.None);
             });
         }

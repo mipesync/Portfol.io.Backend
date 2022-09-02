@@ -6,7 +6,7 @@ namespace Portfol.io.Application.Aggregate.Photos.Queries.GetImageById
 {
     public class ImageViewModel : IMapWith<Photo>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Path { get; set; } = null!;
 
         public void Mapping(Profile profile)

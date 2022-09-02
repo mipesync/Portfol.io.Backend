@@ -7,7 +7,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.RemoveAlbum
         public RemoveAlbumCommandValidator()
         {
             RuleFor(removeAlbumCommand => removeAlbumCommand.Id)
-                .NotEqual(0).WithMessage("Id is required");
+                .NotEqual(Guid.Empty).WithMessage("Id is required");
         }
     }
 }

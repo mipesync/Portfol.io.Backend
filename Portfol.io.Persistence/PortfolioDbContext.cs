@@ -9,12 +9,10 @@ namespace Portfol.io.Persistence
     {
         public PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : base(options) { }
 
+
         public DbSet<Album> Albums { get; set; } = null!;
-        public DbSet<Credential> Credentials { get; set; } = null!;
         public DbSet<Photo> Photos { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;
-        public DbSet<Role> Roles { get; set; } = null!;
         public DbSet<AlbumTag> AlbumTags { get; set; } = null!;
         public DbSet<AlbumLike> AlbumLikes { get; set; } = null!;
 

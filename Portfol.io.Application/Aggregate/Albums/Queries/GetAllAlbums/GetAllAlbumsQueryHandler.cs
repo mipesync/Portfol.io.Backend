@@ -24,7 +24,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAllAlbums
             var entity = await _dbContext.Albums.Include(u => u.Photos).Include(u => u.Tags)
                 .Include(u => u.AlbumLikes).ProjectTo<AlbumLookupDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
 
-            if (entity is null) throw new NotFoundException(nameof(Album), null!);
+            if (entity.Count == 0) throw new NotFoundException(nameof(Album), null!);
 
             return new AlbumsViewModel { Albums = entity };
         }

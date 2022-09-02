@@ -9,6 +9,12 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<AlbumLike> builder)
         {
             builder.ToTable("AlbumLikes");
+
+            builder.HasKey(p => new
+            {
+                p.AlbumId,
+                p.UserId
+            });
         }
     }
 }

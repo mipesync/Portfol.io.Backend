@@ -23,10 +23,6 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
             builder.Property(p => p.CreationDate)
                 .IsRequired();
 
-            builder.HasOne(u => u.User)
-                .WithMany(u => u.UserAlbums)
-                .HasForeignKey(u => u.UserId);
-
             builder.HasMany(u => u.Tags)
                 .WithMany(u => u.Albums)
                 .UsingEntity<AlbumTag>(
@@ -42,23 +38,6 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
                 {
                     p.HasKey(new string[] { "AlbumId", "TagId" });
                     p.ToTable("AlbumTags");
-                });
-
-            builder.HasMany(u => u.Users)
-                .WithMany(u => u.LikedAlbums)
-                .UsingEntity<AlbumLike>(
-                j => j
-                    .HasOne(u => u.User)
-                    .WithMany(u => u.AlbumLikes)
-                    .HasForeignKey(u => u.UserId),
-                o => o
-                    .HasOne(u => u.Album)
-                    .WithMany(u => u.AlbumLikes)
-                    .HasForeignKey(u => u.AlbumId),
-                p =>
-                {
-                    p.HasKey(new [] { "UserId", "AlbumId" });
-                    p.ToTable("AlbumLikes");
                 });
         }
     }

@@ -7,7 +7,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.UpdateAlbum
         public UpdateAlbumCommandValidator()
         {
             RuleFor(updateAlbumCommand => updateAlbumCommand.Id)
-                .NotEmpty().WithMessage("Id is required");
+                .NotEqual(Guid.Empty).WithMessage("Id is required");
 
             RuleFor(updateAlbumCommand => updateAlbumCommand.Name)
                 .NotEmpty().WithMessage("Name is required.")

@@ -4,7 +4,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
 {
-    public class CreateAlbumCommandHandler : IRequestHandler<CreateAlbumCommand, int>
+    public class CreateAlbumCommandHandler : IRequestHandler<CreateAlbumCommand, Guid>
     {
         private readonly IPortfolioDbContext _dbContext;
 
@@ -13,7 +13,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
             _dbContext = dbContext;
         }
 
-        public async Task<int> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
         {
             var entity = new Album
             {

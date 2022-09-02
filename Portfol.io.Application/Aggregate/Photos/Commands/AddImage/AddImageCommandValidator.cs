@@ -17,7 +17,7 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
                 .NotEmpty().WithMessage("HostUrl is required.");
 
             RuleFor(addImageCommand => addImageCommand.AlbumId)
-                .NotEqual(0).WithMessage("AlbumId is required.");
+                .NotEqual(Guid.Empty).WithMessage("AlbumId is required");
         }
     }
 }

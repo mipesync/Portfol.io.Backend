@@ -10,8 +10,8 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
         {
             builder.ToTable("Tags");
 
-            builder.HasKey(p => p.Id);
-            builder.HasIndex(p => p.Id).IsUnique();
+            builder.HasKey(x => x.Id);
+            builder.HasIndex(x => x.Id).IsUnique();
 
             builder.Property(p => p.Name)
                 .HasMaxLength(30)

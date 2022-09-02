@@ -7,10 +7,10 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.DeleteImage
         public DeleteImageCommandValidator()
         {
             RuleFor(u => u.AlbumId)
-                .NotEmpty().WithMessage("Id is required.");
+                .NotEqual(Guid.Empty).WithMessage("AlbumId is required");
 
             RuleFor(u => u.PhotoId)
-                .NotEmpty().WithMessage("AlbumId is required.");
+                .NotEqual(Guid.Empty).WithMessage("PhotoId is required");
 
             RuleFor(u => u.WebRootPath)
                 .NotEmpty().WithMessage("WebRootPath is required");

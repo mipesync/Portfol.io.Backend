@@ -3,7 +3,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
 {
-    public class CreateAlbumCommand : IRequest<int>
+    public class CreateAlbumCommand : IRequest<Guid>
     {
         public string Name { get; set; } = null!;
         public string? Description { get; set; }

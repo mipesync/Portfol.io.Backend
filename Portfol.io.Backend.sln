@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfol.io.Persistence", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfol.io.WebAPI", "Portfol.io.WebAPI\Portfol.io.WebAPI.csproj", "{65C4F6AA-82B3-46DF-A69B-FD2F84D01C44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portfol.io.Tests", "Portfol.io.Tests\Portfol.io.Tests.csproj", "{D814AF00-79E7-4AD2-8346-D58DC9F63F56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Portfol.io.Tests", "Portfol.io.Tests\Portfol.io.Tests.csproj", "{D814AF00-79E7-4AD2-8346-D58DC9F63F56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

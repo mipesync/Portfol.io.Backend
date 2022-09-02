@@ -1,22 +1,42 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Portfol.io.Application;
 using Portfol.io.Persistence;
+using Portfol.io.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.AddMvc();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //TODO: Доделать настройки авторизации + добавить авторизацию через ВК и т.д.
-builder.Services.AddAuthentication()
-    .AddJwtBearer(options =>
+//TODO: Сделать авторизацию через IdentitServer 4, в куках хранить userId и credentialId
+builder.Services.AddAuthentication(conf =>
+{
+    conf.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    conf.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer("Bearer", opt =>
+{
+    opt.Authority = "https://localhost:7150";
+    opt.Audience = "PortfolioWebAPI";
+    opt.RequireHttpsMetadata = false;
+});
+    /*.AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            //ValidateIssuer = true,
-            //ValidIssuer
+            ValidateIssuer = true,
+            ValidIssuer = AuthenticationOptions.ISSUER,
+            ValidateAudience = true,
+            ValidAudience = AuthenticationOptions.AUDIENCE,
+            ValidateLifetime = true,
+            IssuerSigningKey = AuthenticationOptions.GetSymmetricSecurityKey(),
+            ValidateIssuerSigningKey = true
         };
     })
     .AddGoogle(options =>
@@ -24,7 +44,7 @@ builder.Services.AddAuthentication()
         IConfigurationSection googleConfig = config.GetSection("Authenfication:Google");
         options.ClientId = googleConfig["ClientId"];
         options.ClientSecret = googleConfig["ClientSecret"];
-    });
+    });*/
 
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
 builder.Services.AddPersistence(connectionString);

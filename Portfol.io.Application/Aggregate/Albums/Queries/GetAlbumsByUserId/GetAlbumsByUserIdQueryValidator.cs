@@ -7,7 +7,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByUserId
         public GetAlbumsByUserIdQueryValidator()
         {
             RuleFor(u => u.UserId)
-                .NotEqual(Guid.Empty).WithMessage("UserId is requored.");
+                .NotEqual(Guid.Empty).WithMessage("UserId is required.");
         }
     }
 }

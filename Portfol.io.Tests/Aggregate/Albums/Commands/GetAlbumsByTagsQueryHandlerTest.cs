@@ -35,17 +35,17 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                     {
                         new Tag
                         {
-                            Id = 1,
+                            Id = PortfolioContextFactory.Tag1,
                             Name = "Тег 1"
                         },
                         new Tag
                         {
-                            Id = 2,
+                            Id = PortfolioContextFactory.Tag2,
                             Name = "Тег 2"
                         },
                         new Tag
                         {
-                            Id = 3,
+                            Id = PortfolioContextFactory.Tag3,
                             Name = "Тег 3"
                         }
                     }
@@ -53,7 +53,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
 
             //Assert
             result.ShouldBeOfType(typeof(AlbumsViewModel));
-            result.Albums.Count().ShouldBe(4);
+            result.Albums.Count().ShouldBe(5);
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                         {
                             new Tag
                             {
-                                Id = 0,
+                                Id = Guid.Empty,
                                 Name = "tag_0"
                             }
                         }

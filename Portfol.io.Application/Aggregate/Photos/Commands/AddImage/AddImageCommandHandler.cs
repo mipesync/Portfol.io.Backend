@@ -6,7 +6,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
 {
-    public class AddImageCommandHandler : IRequestHandler<AddImageCommand, int>
+    public class AddImageCommandHandler : IRequestHandler<AddImageCommand, Guid>
     {
         private readonly IPortfolioDbContext _dbContext;
         private readonly IImageUploader _uploader;
@@ -17,7 +17,7 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
             _uploader = uploader;
         }
 
-        public async Task<int> Handle(AddImageCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AddImageCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 

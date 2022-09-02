@@ -34,7 +34,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
             var result = await handler.Handle(
                 new AddImageCommand
                 {
-                    AlbumId = 1,
+                    AlbumId = PortfolioContextFactory.Album1,
                     HostUrl = "some_host_url",
                     ImageFile = ImadeFile,
                     WebRootPath = webRootPath
@@ -57,7 +57,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
                 await handler.Handle(
                     new AddImageCommand
                     {
-                        AlbumId = 0,
+                        AlbumId = Guid.Empty,
                         HostUrl = "some_host_url",
                         ImageFile = ImadeFile,
                         WebRootPath = "some_wrp"

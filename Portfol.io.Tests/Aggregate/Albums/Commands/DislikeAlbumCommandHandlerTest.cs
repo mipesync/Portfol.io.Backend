@@ -18,12 +18,12 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
             await handler.Handle(
                 new DislikeAlbumCommand
                 {
-                    AlbumId = 1,
+                    AlbumId = PortfolioContextFactory.Album1,
                     UserId = PortfolioContextFactory.UserAId
                 }, CancellationToken.None);
 
             //Assert
-            Assert.Null(await Context.AlbumLikes.FirstOrDefaultAsync(u => u.AlbumId == 1 && u.UserId == PortfolioContextFactory.UserAId, CancellationToken.None));
+            Assert.Null(await Context.AlbumLikes.FirstOrDefaultAsync(u => u.AlbumId == PortfolioContextFactory.Album1 && u.UserId == PortfolioContextFactory.UserAId, CancellationToken.None));
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                 await handler.Handle(
                     new DislikeAlbumCommand
                     {
-                        AlbumId = 0,
+                        AlbumId = Guid.Empty,
                         UserId = PortfolioContextFactory.UserBId
                     }, CancellationToken.None);
             });

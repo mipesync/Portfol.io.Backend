@@ -20,12 +20,12 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
             await handler.Handle(
                 new UpdateAlbumCommand
                 {
-                    Id = 1,
+                    Id = PortfolioContextFactory.Album1,
                     Name = newName
                 }, CancellationToken.None);
 
             //Assert
-            var result = await Context.Albums.FirstOrDefaultAsync(u => u.Id == 1, CancellationToken.None);
+            var result = await Context.Albums.FirstOrDefaultAsync(u => u.Id == PortfolioContextFactory.Album1, CancellationToken.None);
             result!.Name.ShouldBe(newName);
         }
 
@@ -42,7 +42,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                 await handler.Handle(
                     new UpdateAlbumCommand
                     {
-                        Id = 0,
+                        Id = Guid.Empty,
                         Name = "New name"
                     }, CancellationToken.None);
             });

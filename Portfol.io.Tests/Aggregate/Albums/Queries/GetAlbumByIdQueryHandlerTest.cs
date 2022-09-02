@@ -30,7 +30,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Queries
             var result = await handler.Handle(
                 new GetAlbumByIdQuery
                 {
-                    Id = 1
+                    Id = PortfolioContextFactory.Album1
                 }, CancellationToken.None);
 
             //Assert
@@ -50,7 +50,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Queries
                 await handler.Handle(
                     new GetAlbumByIdQuery
                     {
-                        Id = 0
+                        Id = Guid.Empty
                     }, CancellationToken.None);
             });
         }

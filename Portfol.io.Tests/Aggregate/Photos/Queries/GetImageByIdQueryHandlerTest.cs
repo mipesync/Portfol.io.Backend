@@ -30,7 +30,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Queries
             var result = await handler.Handle(
                 new GetImageByIdQuery
                 {
-                    Id = 1
+                    Id = PortfolioContextFactory.Photo1
                 }, CancellationToken.None);
 
             //Assert
@@ -50,7 +50,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Queries
                 await handler.Handle(
                     new GetImageByIdQuery
                     {
-                        Id = 0
+                        Id = Guid.Empty
                     }, CancellationToken.None);
             });
         }
