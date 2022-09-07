@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
 {
@@ -7,14 +6,11 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
     {
         public AddImageCommandValidator()
         {
-            RuleFor(addImageCommand => addImageCommand.ImageFile)
-                .NotEqual(default(IFormFile)).WithMessage("Image file is required");
+            RuleFor(addImageCommand => addImageCommand.Files.Count)
+                .GreaterThan(0).WithMessage("Image is required");
 
             RuleFor(addImageCommand => addImageCommand.WebRootPath)
-                .NotEmpty().WithMessage("WebRootPath is required.");
-
-            RuleFor(addImageCommand => addImageCommand.HostUrl)
-                .NotEmpty().WithMessage("HostUrl is required.");
+                .NotEmpty().WithMessage("WebRootPath is required");
 
             RuleFor(addImageCommand => addImageCommand.AlbumId)
                 .NotEqual(Guid.Empty).WithMessage("AlbumId is required");

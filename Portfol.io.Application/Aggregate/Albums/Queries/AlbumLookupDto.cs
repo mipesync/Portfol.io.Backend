@@ -10,8 +10,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime CreationDate { get; set; }
-        public IEnumerable<Photo> Photos { get; set; } = null!;
-        public IEnumerable<Tag> Tags { get; set; } = null!;
+        public IEnumerable<Photo>? Photos { get; set; }
+        public IEnumerable<Tag>? Tags { get; set; }
         public int Likes { get; set; }
 
         public void Mapping(Profile profile)

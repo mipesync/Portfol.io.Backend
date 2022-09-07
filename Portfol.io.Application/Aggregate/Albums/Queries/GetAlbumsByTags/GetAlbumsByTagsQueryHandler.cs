@@ -22,12 +22,12 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags
         {
             var entities = new List<AlbumTag>();
 
-            foreach(var tag in request.Tags)
+            foreach(var tagId in request.TagIds)
             {
-                entities.AddRange(await _dbContext.AlbumTags.Include(u => u.Album).Where(u => u.TagId == tag.Id).ToListAsync());
+                entities.AddRange(await _dbContext.AlbumTags.Include(u => u.Album).Where(u => u.TagId == tagId).ToListAsync());
             }
 
-            if (entities.Count() == 0) throw new NotFoundException(nameof(Album), request.Tags);
+            if (entities.Count() == 0) throw new NotFoundException(nameof(Album), request.TagIds);
 
             var albumLookupDto = new List<AlbumLookupDto>();
 

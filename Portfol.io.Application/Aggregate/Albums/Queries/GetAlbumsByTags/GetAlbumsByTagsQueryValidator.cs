@@ -7,8 +7,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags
     {
         public GetAlbumsByTagsQueryValidator()
         {
-            RuleFor(getAlbumsByTagsQueryValidator => getAlbumsByTagsQueryValidator.Tags)
-                .NotEqual(default(IEnumerable<Tag>));
+            RuleFor(getAlbumsByTagsQueryValidator => getAlbumsByTagsQueryValidator.TagIds)
+                .NotEqual(default(IEnumerable<Guid>));
         }
     }
 }

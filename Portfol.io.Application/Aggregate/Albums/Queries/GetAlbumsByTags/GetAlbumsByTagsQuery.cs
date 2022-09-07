@@ -5,6 +5,6 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags
 {
     public class GetAlbumsByTagsQuery : IRequest<AlbumsViewModel>
     {
-        public IEnumerable<Tag> Tags { get; set; } = null!;
+        public IEnumerable<Guid> TagIds { get; set; } = null!;
     }
 }

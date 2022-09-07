@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Interfaces;
 using Portfol.io.Domain;
+using System.Text.RegularExpressions;
 
 namespace Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum
 {
@@ -28,7 +29,20 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum
             };
 
             await _dbContext.AlbumLikes.AddAsync(entity, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            try
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateException e)
+            {
+                if (Regex.IsMatch(e.InnerException!.Message, @"\w*23505"))
+                {
+                    _dbContext.AlbumLikes.Attach(entity);
+                    _dbContext.AlbumLikes.Remove(entity);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                }
+            }
 
             return Unit.Value;
         }

@@ -6,7 +6,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
 {
-    public class AddImageCommandHandler : IRequestHandler<AddImageCommand, Guid>
+    public class AddImageCommandHandler : IRequestHandler<AddImageCommand, ICollection<Guid>>
     {
         private readonly IPortfolioDbContext _dbContext;
         private readonly IImageUploader _uploader;
@@ -17,26 +17,35 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
             _uploader = uploader;
         }
 
-        public async Task<Guid> Handle(AddImageCommand request, CancellationToken cancellationToken)
+        public async Task<ICollection<Guid>> Handle(AddImageCommand request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 
             if (entity is null || entity.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
 
-            _uploader.File = request.ImageFile;
-            _uploader.AbsolutePath = $"{request.WebRootPath}/AlbumImages/{entity.UserId}/{entity.Id}/";
-            var imagePath = await _uploader.Upload();
+            var guids = new List<Guid>();
 
-            var photo = new Photo
+            foreach (var image in request.Files)
             {
-                Path = imagePath,
-                AlbumId = request.AlbumId
-            };
+                _uploader.File = image;
+                _uploader.WebRootPath = request.WebRootPath;
+                _uploader.AbsolutePath = $"/AlbumImages/{entity.UserId}/{entity.Id}/";
+                var imagePath = await _uploader.Upload();
 
-            await _dbContext.Photos.AddAsync(photo, cancellationToken);
+                var photo = new Photo
+                {
+                    Path = imagePath,
+                    AlbumId = request.AlbumId
+                };
+
+                await _dbContext.Photos.AddAsync(photo, cancellationToken);
+
+                guids.Add(photo.Id);
+            }
+
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return photo.Id;
+            return guids;
         }
     }
 }

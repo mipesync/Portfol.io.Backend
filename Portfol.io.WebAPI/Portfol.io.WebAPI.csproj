@@ -4,7 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
     <UserSecretsId>3e9780d7-912d-4c8b-b59f-f8fd9fba3612</UserSecretsId>
   </PropertyGroup>
 

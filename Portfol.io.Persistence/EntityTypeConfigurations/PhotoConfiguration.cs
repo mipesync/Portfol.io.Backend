@@ -14,7 +14,7 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
             builder.HasIndex(p => p.Id).IsUnique();
 
             builder.Property(p => p.Path)
-                .HasMaxLength(55)
+                .HasMaxLength(255)
                 .IsRequired();
 
             builder.HasOne(u => u.Album)
