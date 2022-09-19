@@ -20,6 +20,9 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
             builder.Property(p => p.Description)
                 .HasMaxLength(500);
 
+            builder.Property(p => p.Cover)
+                .HasMaxLength(255);
+
             builder.Property(p => p.CreationDate)
                 .IsRequired();
 

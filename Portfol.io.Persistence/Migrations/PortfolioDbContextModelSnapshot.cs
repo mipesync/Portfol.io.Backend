@@ -28,6 +28,10 @@ namespace Portfol.io.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Cover")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -43,12 +47,30 @@ namespace Portfol.io.Persistence.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
+                    b.Property<int>("Views")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Albums", (string)null);
+                });
+
+            modelBuilder.Entity("Portfol.io.Domain.AlbumBookmark", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "AlbumId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("AlbumBookmarks", (string)null);
                 });
 
             modelBuilder.Entity("Portfol.io.Domain.AlbumLike", b =>
@@ -90,8 +112,8 @@ namespace Portfol.io.Persistence.Migrations
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasMaxLength(55)
-                        .HasColumnType("character varying(55)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
 
@@ -120,6 +142,17 @@ namespace Portfol.io.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Tags", (string)null);
+                });
+
+            modelBuilder.Entity("Portfol.io.Domain.AlbumBookmark", b =>
+                {
+                    b.HasOne("Portfol.io.Domain.Album", "Album")
+                        .WithMany("AlbumBookmarks")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
                 });
 
             modelBuilder.Entity("Portfol.io.Domain.AlbumLike", b =>
@@ -165,6 +198,8 @@ namespace Portfol.io.Persistence.Migrations
 
             modelBuilder.Entity("Portfol.io.Domain.Album", b =>
                 {
+                    b.Navigation("AlbumBookmarks");
+
                     b.Navigation("AlbumLikes");
 
                     b.Navigation("AlbumTags");

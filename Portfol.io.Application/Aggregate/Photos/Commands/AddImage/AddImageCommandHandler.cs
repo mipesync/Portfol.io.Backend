@@ -28,8 +28,8 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
             foreach (var image in request.Files)
             {
                 _uploader.File = image;
-                _uploader.WebRootPath = request.WebRootPath;
-                _uploader.AbsolutePath = $"/AlbumImages/{entity.UserId}/{entity.Id}/";
+                _uploader.WebRootPath = request.WebRootPath is null ? throw new ArgumentException("WebRootPath must not be null.") : request.WebRootPath;
+                _uploader.AbsolutePath = $"/AlbumImages/{entity.UserId}/{entity.Id}";
                 var imagePath = await _uploader.Upload();
 
                 var photo = new Photo

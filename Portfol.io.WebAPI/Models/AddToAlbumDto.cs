@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Portfol.io.Application.Aggregate.Photos.Commands.AddImage;
 using Portfol.io.Application.Common.Mappings;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Portfol.io.WebAPI.Models
 {
@@ -9,7 +12,6 @@ namespace Portfol.io.WebAPI.Models
     {
         [Required]
         public ICollection<IFormFile> Files { get; set; } = null!;
-        public string? WebRootPath { get; set; }
         [Required]
         public Guid AlbumId { get; set; }
 
@@ -17,7 +19,6 @@ namespace Portfol.io.WebAPI.Models
         {
             profile.CreateMap<AddToAlbumDto, AddImageCommand>()
                 .ForMember(command => command.Files, opt => opt.MapFrom(dto => dto.Files))
-                .ForMember(command => command.WebRootPath, opt => opt.MapFrom(dto => dto.WebRootPath))
                 .ForMember(command => command.AlbumId, opt => opt.MapFrom(dto => dto.AlbumId));
         }
     }

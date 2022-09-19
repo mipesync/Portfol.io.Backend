@@ -20,7 +20,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
                 new DeleteImageCommand
                 {
                     AlbumId = PortfolioContextFactory.Album1,
-                    PhotoId = PortfolioContextFactory.Photo1,
+                    ImageId = PortfolioContextFactory.Photo1,
                     WebRootPath = webRootPath
                 }, CancellationToken.None);
 
@@ -42,7 +42,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
                     new DeleteImageCommand
                     {
                         AlbumId = PortfolioContextFactory.Album1,
-                        PhotoId = Guid.Empty,
+                        ImageId = Guid.Empty,
                         WebRootPath = "some_path"
                     }, CancellationToken.None);
             });

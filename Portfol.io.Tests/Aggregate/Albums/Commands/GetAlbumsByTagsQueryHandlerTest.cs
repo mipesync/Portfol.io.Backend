@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Portfol.io.Application.Aggregate.Albums.Queries;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags;
 using Portfol.io.Application.Common.Exceptions;
-using Portfol.io.Domain;
 using Portfol.io.Persistence;
 using Portfol.io.Tests.Common;
 using Shouldly;
@@ -31,23 +31,11 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
             var result = await handler.Handle(
                 new GetAlbumsByTagsQuery
                 {
-                    Tags = new List<Tag>
+                    TagIds = new List<Guid>
                     {
-                        new Tag
-                        {
-                            Id = PortfolioContextFactory.Tag1,
-                            Name = "Тег 1"
-                        },
-                        new Tag
-                        {
-                            Id = PortfolioContextFactory.Tag2,
-                            Name = "Тег 2"
-                        },
-                        new Tag
-                        {
-                            Id = PortfolioContextFactory.Tag3,
-                            Name = "Тег 3"
-                        }
+                        PortfolioContextFactory.Tag1,
+                        PortfolioContextFactory.Tag2,
+                        PortfolioContextFactory.Tag3,
                     }
                 }, CancellationToken.None);
 
@@ -69,13 +57,9 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                 await handler.Handle(
                     new GetAlbumsByTagsQuery
                     {
-                        Tags = new List<Tag>
+                        TagIds = new List<Guid>
                         {
-                            new Tag
-                            {
-                                Id = Guid.Empty,
-                                Name = "tag_0"
-                            }
+                            Guid.NewGuid()
                         }
                     }, CancellationToken.None);
             });

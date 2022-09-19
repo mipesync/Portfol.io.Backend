@@ -12,7 +12,7 @@ namespace Portfol.io.Application.Aggregate.Photos.Queries
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Photo, ImageViewModel>()
+            profile.CreateMap<Photo, ImageLookupDto>()
                 .ForMember(u => u.Id, opt => opt.MapFrom(u => u.Id))
                 .ForMember(u => u.Path, opt => opt.MapFrom(u => u.Path));
         }

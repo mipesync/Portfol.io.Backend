@@ -14,13 +14,13 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
     {
         private readonly PortfolioDbContext Context;
         private readonly IImageUploader Uploader;
-        private readonly IFormFile ImadeFile;
+        private readonly IFormFile ImageFile;
 
         public AddImageCommandHandlerTest(CommandTestFixture fixture)
         {
             Context = fixture.Context;
             Uploader = fixture.Uploader;
-            ImadeFile = fixture.ImageFile;
+            ImageFile = fixture.ImageFile;
         }
 
         [Fact]
@@ -35,13 +35,12 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
                 new AddImageCommand
                 {
                     AlbumId = PortfolioContextFactory.Album1,
-                    HostUrl = "some_host_url",
-                    ImageFile = ImadeFile,
+                    Files = new List<IFormFile> { ImageFile },
                     WebRootPath = webRootPath
                 }, CancellationToken.None);
 
             //Assert
-            Assert.NotNull(await Context.Photos.FirstOrDefaultAsync(u => u.Id == result, CancellationToken.None));
+            Assert.NotNull(await Context.Photos.FirstOrDefaultAsync(u => u.Id == result.First(), CancellationToken.None));
         }
 
         [Fact]
@@ -58,8 +57,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Commands
                     new AddImageCommand
                     {
                         AlbumId = Guid.Empty,
-                        HostUrl = "some_host_url",
-                        ImageFile = ImadeFile,
+                        Files = new List<IFormFile> { ImageFile },
                         WebRootPath = "some_wrp"
                     }, CancellationToken.None);
             });

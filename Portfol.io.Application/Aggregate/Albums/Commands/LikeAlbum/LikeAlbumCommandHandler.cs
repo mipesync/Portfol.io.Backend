@@ -22,6 +22,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum
 
             if (album is null || album.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
 
+            if (album.UserId == request.UserId) throw new Exception("You can't like your album!");
+
             var entity = new AlbumLike
             {
                 AlbumId = request.AlbumId,

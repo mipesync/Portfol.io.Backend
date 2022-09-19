@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Nest;
 using Portfol.io.Application;
 using Portfol.io.Application.Common.Mappings;
+using Portfol.io.Domain;
 using Portfol.io.Persistence;
 using Portfol.io.WebAPI;
 using System.Reflection;
@@ -49,18 +51,12 @@ builder.Services.AddSwaggerGen(config =>
         }
     });
 });
-//TODO: Разобраться с аутентификацией
+
 builder.Services.AddAuthentication(conf =>
 {
     conf.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     conf.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})/*.AddJwtBearer("Bearer", opt =>
-{
-    opt.Authority = "https://localhost:7150";
-    opt.Audience = "PortfolioWebAPI";
-    opt.RequireHttpsMetadata = false;
-});*/
-    .AddJwtBearer(options =>
+}).AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {

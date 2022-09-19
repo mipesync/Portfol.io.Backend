@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Portfol.io.Application.Aggregate.Photos.Commands.AddImage;
+using Portfol.io.Application.Aggregate.Photos.Commands.DeleteImage;
 using Portfol.io.Application.Aggregate.Photos.Queries.GetImageByAlbumId;
 using Portfol.io.Application.Aggregate.Photos.Queries.GetImageById;
 using Portfol.io.Application.Common.Exceptions;
@@ -21,8 +22,7 @@ namespace Portfol.io.WebAPI.Controllers
             _environment = environment;
         }
 
-        //ERROR: Исключение при маппинге
-        [HttpGet("get_by_albumId")]
+        [HttpGet("getByAlbumId")]
         [AllowAnonymous]
         public async Task<IActionResult> GetByAlbumId(Guid albumId)
         {
@@ -32,7 +32,7 @@ namespace Portfol.io.WebAPI.Controllers
 
                 foreach(var photo in result.Images!)
                 {
-                    photo.Path = $"{_environment.WebRootPath}{photo.Path}";
+                    photo.Path = $"{UrlRaw}{photo.Path}";
                 }
 
                 return Ok(result);
@@ -43,15 +43,14 @@ namespace Portfol.io.WebAPI.Controllers
             }
         }
 
-        //ERROR: Исключение при маппинге
-        [HttpGet("get_by_id")]
+        [HttpGet("getById")]
         [AllowAnonymous]
         public async Task<IActionResult> GetById(Guid PhotoId)
         {
             try
             {
                 var photo = await Mediator.Send(new GetImageByIdQuery { Id = PhotoId });
-                photo.Path = $"{_environment.WebRootPath}{photo.Path}";
+                photo.Path = $"{UrlRaw}{photo.Path}";
                 return Ok(photo);
             }
             catch(NotFoundException e)
@@ -74,6 +73,31 @@ namespace Portfol.io.WebAPI.Controllers
             catch(NotFoundException e)
             {
                 return NotFound(new { message = e.Message });
+            }
+            catch(ArgumentException e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
+        }
+
+        [HttpPost("deleteFromAlbum")]
+        public async Task<IActionResult> DeleteFromAlbum([FromForm] DeleteFromAlbumDto deleteFromAlbumDto)
+        {
+            try
+            {
+                var command = _mapper.Map<DeleteImageCommand>(deleteFromAlbumDto);
+                command.WebRootPath = _environment.WebRootPath;
+
+                await Mediator.Send(command);
+                return Ok();
+            }
+            catch(NotFoundException e)
+            {
+                return NotFound(new { message = e.Message });
+            }
+            catch(ArgumentException e)
+            {
+                return BadRequest(new { message = e.Message });
             }
         }
     }

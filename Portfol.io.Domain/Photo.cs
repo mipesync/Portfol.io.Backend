@@ -1,4 +1,6 @@
-﻿namespace Portfol.io.Domain
+﻿using System.Text.Json.Serialization;
+
+namespace Portfol.io.Domain
 {
     public class Photo
     {
@@ -6,6 +8,7 @@
         public string Path { get; set; } = null!;
         public Guid AlbumId { get; set; }
 
+        [JsonIgnore]
         public virtual Album Album { get; set; } = null!;
     }
 }

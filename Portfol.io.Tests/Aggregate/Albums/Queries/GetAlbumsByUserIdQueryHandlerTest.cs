@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Portfol.io.Application.Aggregate.Albums.Queries;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByUserId;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Persistence;

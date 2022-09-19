@@ -19,6 +19,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
             {
                 Name = request.Name,
                 Description = request.Description,
+                Cover = "/AlbumCovers/default.png",
                 CreationDate = DateTime.UtcNow,
                 UserId = request.UserId,
                 Tags = request.Tags
@@ -26,7 +27,6 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
 
             _dbContext.Tags.AttachRange(request.Tags!);
             await _dbContext.Albums.AddAsync(entity, cancellationToken);
-            //await _dbContext.Tags.AddRangeAsync(entity.Tags!, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return entity.Id;

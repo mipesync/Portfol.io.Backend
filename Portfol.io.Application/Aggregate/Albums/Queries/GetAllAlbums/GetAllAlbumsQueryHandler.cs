@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Portfol.io.Application.Common.Exceptions;
+using Portfol.io.Application.Common.Services.LikeCheck;
 using Portfol.io.Application.Interfaces;
 using Portfol.io.Domain;
 
@@ -21,12 +21,13 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAllAlbums
 
         public async Task<AlbumsViewModel> Handle(GetAllAlbumsQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Albums.Include(u => u.Photos).Include(u => u.Tags)
-                .Include(u => u.AlbumLikes).ProjectTo<AlbumLookupDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+            var entities = await _dbContext.Albums.Include(u => u.Photos).Include(u => u.AlbumLikes!).ToListAsync(cancellationToken);
 
-            if (entity.Count == 0) throw new NotFoundException(nameof(Album), null!);
+            var albumDtos = new UserLikeChecker<AlbumLookupDto>(_mapper).Check(request.UserId, entities);
 
-            return new AlbumsViewModel { Albums = entity };
+            if (entities.Count == 0) throw new NotFoundException(nameof(Album), null!);
+
+            return new AlbumsViewModel { Albums = albumDtos };
         }
     }
 }

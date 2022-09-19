@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Portfol.io.Application.Interfaces;
+using FileIO = System.IO.File;
 
 namespace Portfol.io.Persistence.Services
 {
@@ -14,10 +15,14 @@ namespace Portfol.io.Persistence.Services
             var fileExtension = Path.GetExtension(File.FileName);
             var fileNameHash = Guid.NewGuid().ToString();
             string path = $"{AbsolutePath}/{fileNameHash}{fileExtension}";
+            string directoryPath = String.Concat(WebRootPath, AbsolutePath);
 
-            Directory.CreateDirectory(AbsolutePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
 
-            using (var fileStream = new FileStream($"{WebRootPath}{path}", FileMode.Create))
+            using (var fileStream = FileIO.Create(String.Concat(WebRootPath, path)))
             {
                 await File.CopyToAsync(fileStream);
             }

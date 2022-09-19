@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Persistence;
@@ -13,18 +14,20 @@ namespace Portfol.io.Tests.Aggregate.Albums.Queries
     {
         private readonly PortfolioDbContext Context;
         private readonly IMapper Mapper;
+        private readonly IConfiguration Config;
 
-        public GetAlbumByIdQueryHandlerTest(QueryTestFixture fixture)
+        public GetAlbumByIdQueryHandlerTest(QueryTestFixture fixture, IConfiguration config)
         {
             Context = fixture.Context;
             Mapper = fixture.Mapper;
+            Config = config;
         }
 
         [Fact]
         public async Task GetAlbumByIdQueryHandlerTest_Success()
         {
             //Arrange
-            var handler = new GetAlbumByIdQueryHandler(Context, Mapper);
+            var handler = new GetAlbumByIdQueryHandler(Context, Mapper, Config);
 
             //Act
             var result = await handler.Handle(
@@ -34,14 +37,14 @@ namespace Portfol.io.Tests.Aggregate.Albums.Queries
                 }, CancellationToken.None);
 
             //Assert
-            result.ShouldBeOfType(typeof(AlbumViewModel));
+            result.ShouldBeOfType(typeof(AlbumLookupDto));
         }
 
         [Fact]
         public async Task GetAlbumByIdQueryHandlerTest_FailOnWrongId()
         {
             //Arrange
-            var handler = new GetAlbumByIdQueryHandler(Context, Mapper);
+            var handler = new GetAlbumByIdQueryHandler(Context, Mapper, Config);
 
             //Act
             //Assert

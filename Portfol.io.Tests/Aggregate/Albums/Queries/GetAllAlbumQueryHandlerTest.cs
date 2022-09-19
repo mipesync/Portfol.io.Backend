@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Portfol.io.Application.Aggregate.Albums.Queries;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAllAlbums;
 using Portfol.io.Persistence;
 using Portfol.io.Tests.Common;
