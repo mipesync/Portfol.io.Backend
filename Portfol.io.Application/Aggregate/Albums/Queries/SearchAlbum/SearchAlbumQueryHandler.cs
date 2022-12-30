@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Common.Services.LikeCheck;
 using Portfol.io.Application.Interfaces;
-using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Albums.Queries.SearchAlbum
 {
@@ -21,7 +19,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.SearchAlbum
 
         public Task<AlbumsViewModel> Handle(SearchAlbumQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Album> albums = _dbContext.Albums.Include(u => u.AlbumLikes);
+            /*IEnumerable<Album> albums = _dbContext.Albums.Include(u => u.AlbumLikes);
             var queries = request.Query!.Split(' ');
 
             foreach(var query in queries)
@@ -31,7 +29,9 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.SearchAlbum
                 albums = condition.Count() != 0 ? condition : albums ;
             }
 
-            if (albums.Count() == 0) throw new NotFoundException(nameof(Album), request.Query);
+            if (albums.Count() == 0) throw new NotFoundException(nameof(Album), request.Query);*/
+
+            var albums = _dbContext.Albums.Include(u => u.AlbumLikes).Where(x => x.SearchVector.Matches(request.Query!)).ToList();
 
             var lookUps = new UserLikeChecker<AlbumLookupDto>(_mapper).Check(request.UserId, albums.ToList());
 

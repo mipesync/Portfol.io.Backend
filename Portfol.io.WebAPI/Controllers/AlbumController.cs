@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
 using Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum;
 using Portfol.io.Application.Aggregate.Albums.Commands.DeleteAlbumCover;
 using Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum;
@@ -36,7 +35,6 @@ namespace Portfol.io.WebAPI.Controllers
             _environment = environment;
         }
 
-        //TODO: Валидация на лайк. Если альбом принадлежит данному юзеру, то запретить лайк
         [HttpGet("getAll")]
         //[Authorize(Roles = "admin, support")]
         public async Task<IActionResult> GetAlbums()

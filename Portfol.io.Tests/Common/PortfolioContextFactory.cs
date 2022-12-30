@@ -159,11 +159,6 @@ namespace Portfol.io.Tests.Common
                 {
                     UserId = UserBId,
                     AlbumId = Album2
-                },
-                new AlbumLike
-                {
-                    UserId = UserBId,
-                    AlbumId = Album1
                 });
 
             context.Tags.AddRange(

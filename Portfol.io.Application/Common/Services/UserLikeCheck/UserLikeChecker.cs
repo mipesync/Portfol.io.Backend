@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MediatR;
 using Portfol.io.Application.Aggregate.Albums.Queries;
 using Portfol.io.Domain;
 

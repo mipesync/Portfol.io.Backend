@@ -13,6 +13,13 @@ namespace Portfol.io.Persistence.EntityTypeConfigurations
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Id).IsUnique();
 
+            builder.HasGeneratedTsVectorColumn(
+                p => p.SearchVector,
+                "russian",
+                p => new { p.Name, p.Description })
+                .HasIndex(p => p.SearchVector)
+                .HasMethod("GIN");
+
             builder.Property(p => p.Name)
                 .HasMaxLength(35)
                 .IsRequired();

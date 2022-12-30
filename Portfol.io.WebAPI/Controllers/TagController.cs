@@ -7,7 +7,7 @@ using Portfol.io.Application.Common.Exceptions;
 
 namespace Portfol.io.WebAPI.Controllers
 {
-    [Authorize(Roles = "admin, support")]
+    [Authorize(Roles = "employee, admin, support")]
     public class TagController : BaseController
     {
         [HttpGet("getTags")]

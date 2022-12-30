@@ -18,7 +18,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
             await handler.Handle(
                 new LikeAlbumCommand
                 {
-                    AlbumId = PortfolioContextFactory.Album3,
+                    AlbumId = PortfolioContextFactory.Album1,
                     UserId = PortfolioContextFactory.UserBId
                 }, CancellationToken.None);
 

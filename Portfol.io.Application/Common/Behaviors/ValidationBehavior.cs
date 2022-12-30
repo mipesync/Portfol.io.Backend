@@ -12,7 +12,7 @@ namespace Portfol.io.Application.Common.Behaviors
             _validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var context = new ValidationContext<TRequest>(request);
             var failres = _validators.Select(u => u.Validate(context)).SelectMany(u => u.Errors).Where(u => u != null).ToList();

@@ -1,4 +1,6 @@
-﻿namespace Portfol.io.Domain
+﻿using NpgsqlTypes;
+
+namespace Portfol.io.Domain
 {
     public class Album
     {
@@ -9,7 +11,8 @@
         public int Views { get; set; }
         public DateTime CreationDate { get; set; }
         public Guid UserId { get; set; }
-
+        public virtual NpgsqlTsVector SearchVector { get; set; } = null!;
+		
         public virtual ICollection<Photo>? Photos { get; set; }
         public virtual ICollection<Tag>? Tags { get; set; }
         public virtual ICollection<AlbumTag>? AlbumTags { get; set; }

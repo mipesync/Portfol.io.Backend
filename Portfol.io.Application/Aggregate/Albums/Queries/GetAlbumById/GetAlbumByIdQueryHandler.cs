@@ -23,7 +23,7 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
             _mapper = mapper;
             _config = config;
         }
-        //TODO: Добавить во все запросы булевый вывод лайка (лайкнут ли юзером или нет)
+
         public async Task<AlbumLookupDto> Handle(GetAlbumByIdQuery request, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Albums.Include(u => u.Photos).Include(u => u.Tags).Include(u => u.AlbumLikes)

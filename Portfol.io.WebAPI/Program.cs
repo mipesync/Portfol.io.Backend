@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Nest;
 using Portfol.io.Application;
 using Portfol.io.Application.Common.Mappings;
-using Portfol.io.Domain;
 using Portfol.io.Persistence;
 using Portfol.io.WebAPI;
 using System.Reflection;
