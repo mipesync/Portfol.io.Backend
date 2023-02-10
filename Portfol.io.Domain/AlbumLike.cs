@@ -8,6 +8,6 @@ namespace Portfol.io.Domain
         public Guid AlbumId { get; set; }
 
         [JsonIgnore]
-        public Album? Album { get; set; }
+        public Album Album { get; set; } = new Album();
     }
 }

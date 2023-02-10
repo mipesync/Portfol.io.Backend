@@ -13,10 +13,10 @@ namespace Portfol.io.Domain
         public Guid UserId { get; set; }
         public virtual NpgsqlTsVector SearchVector { get; set; } = null!;
 		
-        public virtual ICollection<Photo>? Photos { get; set; }
-        public virtual ICollection<Tag>? Tags { get; set; }
-        public virtual ICollection<AlbumTag>? AlbumTags { get; set; }
-        public virtual ICollection<AlbumLike>? AlbumLikes { get; set; }
-        public virtual ICollection<AlbumBookmark>? AlbumBookmarks { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
+        public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        public virtual ICollection<AlbumTag> AlbumTags { get; set; } = new List<AlbumTag>();
+        public virtual ICollection<AlbumLike> AlbumLikes { get; set; } = new List<AlbumLike>();
+        public virtual ICollection<AlbumBookmark> AlbumBookmarks { get; set; } = new List<AlbumBookmark>();
     }
 }

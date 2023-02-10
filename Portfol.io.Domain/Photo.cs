@@ -9,6 +9,6 @@ namespace Portfol.io.Domain
         public Guid AlbumId { get; set; }
 
         [JsonIgnore]
-        public virtual Album Album { get; set; } = null!;
+        public virtual Album Album { get; set; } = new Album();
     }
 }
