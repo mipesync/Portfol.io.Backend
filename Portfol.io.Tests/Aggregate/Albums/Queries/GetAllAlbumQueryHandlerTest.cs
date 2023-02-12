@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Portfol.io.Application.Aggregate.Albums.Queries;
+using Portfol.io.Application.Aggregate.Albums.DTO;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAllAlbums;
 using Portfol.io.Persistence;
 using Portfol.io.Tests.Common;
@@ -30,7 +30,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Queries
             var result = await handler.Handle(new GetAllAlbumsQuery(), CancellationToken.None);
 
             //Assert
-            result.ShouldBeOfType<AlbumsViewModel>();
+            result.ShouldBeOfType<GetAlbumsDto>();
             result.Albums.Count().ShouldBe(4);
         }
     }

@@ -19,7 +19,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.RemoveAlbum
         {
             var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(Album), request.Id);
+            if (entity is null || entity.Id != request.Id)
+                throw new NotFoundException(nameof(Album), request.Id);
 
             _dbContext.Albums.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

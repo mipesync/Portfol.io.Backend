@@ -21,13 +21,19 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.UpdateAlbumCover
         {
             var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 
-            if (entity is null || entity.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
+            if (entity is null || entity.Id != request.AlbumId)
+                throw new NotFoundException(nameof(Album), request.AlbumId);
 
-            if (entity.UserId != request.UserId) throw new Exception("Wrong user!");
+            if (entity.UserId != request.UserId)
+                throw new Exception("Вы не можете редактировать чужой альбом");
 
-            if (entity.Cover != "/AlbumCovers/default.png") File.Delete(String.Concat(request.WebRootPath, entity.Cover!));
+            if (entity.Cover != null)
+                File.Delete(String.Concat(request.WebRootPath, entity.Cover!));
 
-            _imageUploader.WebRootPath = request.WebRootPath is null ? throw new ArgumentException("WebRootPath must not be null.") : request.WebRootPath;
+            _imageUploader.WebRootPath = request.WebRootPath is null
+                ? throw new ArgumentException("WebRootPath не может быть пустым")
+                : request.WebRootPath;
+
             _imageUploader.AbsolutePath = $"/AlbumCovers/{entity.UserId}/{entity.Id}";
             _imageUploader.File = request.Image;
 

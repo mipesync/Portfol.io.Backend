@@ -19,7 +19,8 @@ namespace Portfol.io.Application.Aggregate.Tags.Commands.DeleteTag
         {
             var entity = await _dbContext.Tags.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
 
-            if (entity is null || entity.Id != request.Id) throw new NotFoundException(nameof(Tag), request.Id);
+            if (entity is null || entity.Id != request.Id)
+                throw new NotFoundException(nameof(Tag), request.Id);
 
             _dbContext.Tags.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Portfol.io.Application.Aggregate.Albums.DTO;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Application.Common.Services.LikeCheck;
 using Portfol.io.Application.Interfaces;
@@ -8,7 +9,7 @@ using Portfol.io.Domain;
 
 namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags
 {
-    public class GetAlbumsByTagsQueryHandler : IRequestHandler<GetAlbumsByTagsQuery, AlbumsViewModel>
+    public class GetAlbumsByTagsQueryHandler : IRequestHandler<GetAlbumsByTagsQuery, GetAlbumsDto>
     {
         private readonly IPortfolioDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -19,22 +20,32 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags
             _mapper = mapper;
         }
 
-        public async Task<AlbumsViewModel> Handle(GetAlbumsByTagsQuery request, CancellationToken cancellationToken)
+        public async Task<GetAlbumsDto> Handle(GetAlbumsByTagsQuery request, CancellationToken cancellationToken)
         {
             var entities = new List<AlbumTag>();
 
             foreach(var tagId in request.TagIds)
             {
-                entities.AddRange(await _dbContext.AlbumTags.Include(u => u.Album.AlbumLikes).Where(u => u.TagId == tagId).ToListAsync());
+                var albumTags = await _dbContext.AlbumTags
+                    .AsNoTracking()
+                    .Include(u => u.Album.AlbumLikes)
+                    .Where(u => u.TagId == tagId)
+                    .ToListAsync(cancellationToken);
+
+                entities.AddRange(albumTags);
             }
 
-            if (entities.Count() == 0) throw new NotFoundException(nameof(Album), null!);
+            if (entities.Count() == 0)
+                throw new NotFoundException(nameof(Album), null!);
 
-            var albums = entities.Select(u => u.Album).ToList();
+            var albums = entities
+                .Select(u => u.Album)
+                .ToList();
 
-            var albumLookupDto = new UserLikeChecker<AlbumLookupDto>(_mapper).Check(request.UserId, albums!);
+            var albumLookupDto = new UserLikeChecker<GetAlbumLookupDto>(_mapper)
+                .Check(request.UserId, albums!);
 
-            return new AlbumsViewModel { Albums = albumLookupDto };
+            return new GetAlbumsDto { Albums = albumLookupDto };
         }
     }
 }

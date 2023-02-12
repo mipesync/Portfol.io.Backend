@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using Portfol.io.Application.Aggregate.Albums.DTO;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Persistence;
@@ -37,7 +38,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Queries
                 }, CancellationToken.None);
 
             //Assert
-            result.ShouldBeOfType(typeof(AlbumLookupDto));
+            result.ShouldBeOfType(typeof(GetAlbumByIdDto));
         }
 
         [Fact]

@@ -2,9 +2,9 @@
 using Portfol.io.Application.Common.Mappings;
 using Portfol.io.Domain;
 
-namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
+namespace Portfol.io.Application.Aggregate.Albums.DTO
 {
-    public class AlbumLookupDto : IMapWith<Album>
+    public class GetAlbumByIdDto : IMapWith<Album>
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
@@ -12,15 +12,15 @@ namespace Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumById
         public string Cover { get; set; } = null!;
         public DateTime CreationDate { get; set; }
         public Guid UserId { get; set; }
-        public IEnumerable<Photo>? Photos { get; set; }
-        public IEnumerable<Tag>? Tags { get; set; }
+        public IEnumerable<Photo> Photos { get; set; } = new List<Photo>();
+        public IEnumerable<Tag> Tags { get; set; } = new List<Tag>();
         public bool IsLiked { get; set; }
         public int Likes { get; set; }
         public int Views { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Album, AlbumLookupDto>()
+            profile.CreateMap<Album, GetAlbumByIdDto>()
                 .ForMember(albumLookup => albumLookup.Id, opt => opt.MapFrom(album => album.Id))
                 .ForMember(albumLookup => albumLookup.Name, opt => opt.MapFrom(album => album.Name))
                 .ForMember(albumLookup => albumLookup.Description, opt => opt.MapFrom(album => album.Description))

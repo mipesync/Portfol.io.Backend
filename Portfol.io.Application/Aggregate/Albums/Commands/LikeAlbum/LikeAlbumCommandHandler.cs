@@ -20,9 +20,10 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.LikeAlbum
         {
             var album = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 
-            if (album is null || album.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
+            if (album is null || album.Id != request.AlbumId)
+                throw new NotFoundException(nameof(Album), request.AlbumId);
 
-            if (album.UserId == request.UserId) throw new Exception("You can't like your album!");
+            if (album.UserId == request.UserId) throw new Exception("Вы не можете оценивать свой альбом");
 
             var entity = new AlbumLike
             {

@@ -23,7 +23,7 @@ namespace Portfol.io.WebAPI.Controllers
     /// <summary>
     /// The album controller, which contains all the logic for working with albums.
     /// </summary>
-    [Authorize]
+    //[Authorize]
     public class AlbumController : BaseController
     {
         private readonly IMapper _mapper;

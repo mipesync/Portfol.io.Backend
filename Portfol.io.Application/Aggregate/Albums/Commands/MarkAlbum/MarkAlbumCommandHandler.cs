@@ -20,7 +20,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.MarkAlbum
         {
             var album = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 
-            if (album is null || album.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
+            if (album is null || album.Id != request.AlbumId)
+                throw new NotFoundException(nameof(Album), request.AlbumId);
 
             var entity = new AlbumBookmark
             {

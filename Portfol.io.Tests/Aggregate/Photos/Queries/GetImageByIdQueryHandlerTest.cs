@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Portfol.io.Application.Aggregate.Photos.DTO;
 using Portfol.io.Application.Aggregate.Photos.Queries.GetImageById;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Persistence;
@@ -34,7 +35,7 @@ namespace Portfol.io.Tests.Aggregate.Photos.Queries
                 }, CancellationToken.None);
 
             //Assert
-            result.ShouldBeOfType(typeof(ImageViewModel));
+            result.ShouldBeOfType(typeof(GetImageByIdDto));
         }
 
         [Fact]

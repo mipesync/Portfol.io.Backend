@@ -19,10 +19,9 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.CreateAlbum
             {
                 Name = request.Name,
                 Description = request.Description,
-                Cover = "/AlbumCovers/default.png",
                 CreationDate = DateTime.UtcNow,
                 UserId = request.UserId,
-                Tags = request.Tags
+                Tags = request.Tags!
             };
 
             _dbContext.Tags.AttachRange(request.Tags!);

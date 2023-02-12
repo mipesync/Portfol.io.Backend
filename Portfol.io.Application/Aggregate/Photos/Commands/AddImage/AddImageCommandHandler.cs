@@ -19,16 +19,20 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.AddImage
 
         public async Task<ICollection<Guid>> Handle(AddImageCommand request, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
+            var entity = await _dbContext.Albums
+                .FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 
-            if (entity is null || entity.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
+            if (entity is null || entity.Id != request.AlbumId)
+                throw new NotFoundException(nameof(Album), request.AlbumId);
 
             var guids = new List<Guid>();
 
             foreach (var image in request.Files)
             {
                 _uploader.File = image;
-                _uploader.WebRootPath = request.WebRootPath is null ? throw new ArgumentException("WebRootPath must not be null.") : request.WebRootPath;
+                _uploader.WebRootPath = request.WebRootPath is null
+                    ? throw new ArgumentException("WebRootPath не может быть пустым")
+                    : request.WebRootPath;
                 _uploader.AbsolutePath = $"/AlbumImages/{entity.UserId}/{entity.Id}";
                 var imagePath = await _uploader.Upload();
 

@@ -23,7 +23,9 @@ namespace Portfol.io.Application.Aggregate.Photos.Commands.DeleteImage
             if (entity is null || entity.Id != request.ImageId || entity.AlbumId != request.AlbumId)
                 throw new NotFoundException(nameof(Photo), request.ImageId);
 
-            File.Delete($"{(request.WebRootPath is null ? throw new ArgumentException("WebRootPath must not be null.") : request.WebRootPath)}{entity.Path}");
+            File.Delete($"{(request.WebRootPath is null
+                ? throw new ArgumentException("WebRootPath не может быть пустым")
+                : request.WebRootPath)}{entity.Path}");
 
             _dbContext.Photos.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);

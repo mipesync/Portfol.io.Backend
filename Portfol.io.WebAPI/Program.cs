@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
-builder.Services.AddPersistence(connectionString);
+builder.Services.AddPersistence(connectionString!);
 builder.Services.AddApplication();
 builder.Services.AddAutoMapper(u => u.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly())));
 

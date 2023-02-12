@@ -17,9 +17,12 @@ namespace Portfol.io.Application.Aggregate.Tags.Queries.GetTags
 
         public async Task<List<Tag>> Handle(GetTagsQuery request, CancellationToken cancellationToken)
         {
-            var entities = await _dbContext.Tags.ToListAsync(cancellationToken);
+            var entities = await _dbContext.Tags
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
 
-            if (entities.Count() == 0) throw new NotFoundException(nameof(Tag), null!);
+            if (entities.Count() == 0)
+                throw new NotFoundException(nameof(Tag), null!);
 
             return entities;
         }

@@ -19,7 +19,8 @@ namespace Portfol.io.Application.Aggregate.Albums.Commands.DeleteAlbumCover
         {
             var entity = await _dbContext.Albums.FirstOrDefaultAsync(u => u.Id == request.AlbumId, cancellationToken);
 
-            if (entity is null || entity.Id != request.AlbumId) throw new NotFoundException(nameof(Album), request.AlbumId);
+            if (entity is null || entity.Id != request.AlbumId)
+                throw new NotFoundException(nameof(Album), request.AlbumId);
 
             File.Delete(String.Concat(request.WebRootPath, entity.Cover));
 

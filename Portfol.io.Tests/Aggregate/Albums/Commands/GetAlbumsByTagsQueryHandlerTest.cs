@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Portfol.io.Application.Aggregate.Albums.Queries;
+using Portfol.io.Application.Aggregate.Albums.DTO;
 using Portfol.io.Application.Aggregate.Albums.Queries.GetAlbumsByTags;
 using Portfol.io.Application.Common.Exceptions;
 using Portfol.io.Persistence;
@@ -40,7 +40,7 @@ namespace Portfol.io.Tests.Aggregate.Albums.Commands
                 }, CancellationToken.None);
 
             //Assert
-            result.ShouldBeOfType(typeof(AlbumsViewModel));
+            result.ShouldBeOfType(typeof(GetAlbumsDto));
             result.Albums.Count().ShouldBe(5);
         }
 
